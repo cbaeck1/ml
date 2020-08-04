@@ -8,10 +8,10 @@ import image
 
 # 1. 붓꽃iris 데이터셋
 # 2. 두 개의 특성을 가진 forge 데이터셋은 인위적으로 만든 이진 분류 데이터셋
-# 3. 위스콘신 유방암Wisconsin Breast Cancer 데이터셋
-# 4. 회귀 분석용 실제 데이터셋으로는 보스턴 주택가격Boston Housing 데이터셋
+# 3. 위스콘신 유방암 Wisconsin Breast Cancer 데이터셋
+# 4. 회귀 분석용 실제 데이터셋으로는 보스턴 주택가격 Boston Housing 데이터셋
 # 5. 선형 회귀(최소제곱법)을 위한 wave 데이터셋.  n_samples = 40
-# 6. 세 개의 클래스를 가진 간단한 데이터셋
+# 6. 세 개의 클래스를 가진 간단한 blobs 데이터셋
 # 7. scikit-learn에 구현된 나이브 베이즈 분류기는 GaussianNB, BernoulliNB, MultinomialNB 세가지
 # 8. 메모리 가격 동향 데이터 셋
 # 9. 두 개의 클래스를 가진 2차원 데이터셋
@@ -25,7 +25,7 @@ import image
 #    n_neighbors 변화에 따른 결정 경계   
 #    n_neighbors 변화에 따른 훈련 정확도와 테스트 정확도
 # 2. 선형모델 : 최소제곱, 릿지, 라쏘, 로지스틱, 다중 클래스 분류용 선형 모델
-#    특성공학     
+#    특성공학, 학습곡선    
 # 3. 나이브 베이즈 분류기
 # 4. 결정트리
 # 5. 결정트리 앙상블
@@ -56,12 +56,12 @@ print("X.shape: {}".format(X.shape))
 print("y.shape: {}".format(y.shape))
 print(X, y)
 
-
 # 3. 위스콘신 유방암Wisconsin Breast Cancer 데이터셋입니다(줄여서 cancer라고 하겠습니다). 
 # 각 종양은 양성benign(해롭지 않은 종양)과 악성malignant(암 종양)으로 레이블되어 있고, 
 # 조직 데이터를 기반으로 종양이 악성인지를 예측할 수 있도록 학습하는 것이 과제
 from sklearn.datasets import load_breast_cancer
 cancer = load_breast_cancer()
+print(cancer['DESCR']+ "\n...")
 print("cancer.keys(): \n{}".format(cancer.keys()))
 print("유방암 데이터의 형태: {}".format(cancer.data.shape))
 print("클래스별 샘플 개수:\n{}".format(
@@ -76,6 +76,7 @@ print(cancer.data[:,:2])
 # 이 데이터셋에는 데이터 506개와 특성 13개가 있습니다
 from sklearn.datasets import load_boston
 boston = load_boston()
+print(boston['DESCR']+ "\n...")
 print("boston.keys(): \n{}".format(boston.keys()))
 print("데이터의 형태: {}".format(boston.data.shape))
 print("특성 이름:\n{}".format(boston.feature_names))
@@ -96,7 +97,7 @@ print("X.shape: {}".format(X.shape))
 print("y.shape: {}".format(y.shape))
 print(X[:5], y[:5])
 
-# 6. 세 개의 클래스를 가진 간단한 데이터셋
+# 6. 세 개의 클래스를 가진 간단한 blobs 데이터셋
 from sklearn.datasets import make_blobs
 X, y = make_blobs(random_state=42)
 print("X.shape: {}".format(X.shape))
@@ -120,6 +121,7 @@ print("특성 카운트:\n{}".format(counts))
 # 8. 메모리 가격 동향 데이터 셋
 import pandas as pd
 ram_prices = pd.read_csv(os.path.join(mglearn.datasets.DATA_PATH, "ram_price.csv"))
+print(boston['DESCR']+ "\n...")
 print("ram_prices.keys(): \n{}".format(ram_prices.keys()))
 print("데이터의 형태: {}".format(ram_prices.shape))
 print(ram_prices[:5])
