@@ -6,13 +6,13 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import image
 
-# 데이터셋을 만듭니다. n_samples = 400
+# 5. 선형 회귀(최소제곱법)을 위한 wave 데이터셋. n_samples = 40
 X, y = mglearn.datasets.make_wave(n_samples=400)
 print("X.shape: {}".format(X.shape))
 print("y.shape: {}".format(y.shape))
 print(X[:5], y[:5])
 
-# 산점도
+# 산점도 : 2개의 특성
 plt.plot(X, y, 'o')
 plt.ylim(-3, 3)
 plt.xlabel("특성")
@@ -21,7 +21,7 @@ plt.title("Make Wave Scatter Plot")
 image.save_fig("Make_Wave_Scatter")  
 plt.show()
 
-# k-최근접 이웃 회귀
+# 1. k-최근접 이웃 알고리즘 : 회귀
 mglearn.plots.plot_knn_regression(n_neighbors=1)
 image.save_fig("Make_Wave_knn_regression_n_neighbors_1")  
 plt.show()
@@ -29,9 +29,6 @@ plt.show()
 mglearn.plots.plot_knn_regression(n_neighbors=3)
 image.save_fig("Make_Wave_knn_regression_n_neighbors_3")  
 plt.show()
-
-# 모델
-from sklearn.neighbors import KNeighborsRegressor
 
 # wave 데이터셋을 훈련 세트와 테스트 세트로 나눕니다.
 from sklearn.model_selection import train_test_split
@@ -41,16 +38,15 @@ print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
-
+# 1. k-최근접 이웃 알고리즘 : 회귀
 # 이웃의 수를 3으로 하여 모델의 객체를 만듭니다.
+from sklearn.neighbors import KNeighborsRegressor
 reg = KNeighborsRegressor(n_neighbors=3)
 # 훈련 데이터와 타깃을 사용하여 모델을 학습시킵니다.
 reg.fit(X_train, y_train)
 print("테스트 세트 예측:\n{}".format(reg.predict(X_test)))
 print("테스트 세트 R^2: {:.2f}".format(reg.score(X_test, y_test)))
 
-
-# KNeighborsRegressor 분석
 # n_neighbors 값에 따라 최근접 이웃 회귀로 만들어진 예측 회귀 비교
 fig, axes = plt.subplots(1, 3, figsize=(15, 8))
 # -3과 3 사이에 1,000개의 데이터 포인트를 만듭니다.
@@ -63,17 +59,14 @@ for n_neighbors, ax in zip([1, 3, 9], axes):
     ax.plot(line, reg.predict(line))
     ax.plot(X_train, y_train, '^', c=mglearn.cm2(0), markersize=2)
     ax.plot(X_test, y_test, 'v', c=mglearn.cm2(1), markersize=2)
-
-    ax.set_title(
-        "{} 이웃의 훈련 스코어: {:.2f} 테스트 스코어: {:.2f}".format(
+    ax.set_title("{} 이웃의 훈련 스코어: {:.2f} 테스트 스코어: {:.2f}".format(
             n_neighbors, reg.score(X_train, y_train),
-        reg.score(X_test, y_test)))
+            reg.score(X_test, y_test)))
     ax.set_xlabel("특성")
     ax.set_ylabel("타깃")
 axes[0].legend(["모델 예측", "훈련 데이터/타깃", "테스트 데이터/타깃"], loc="best")
 image.save_fig("Make_Wave_knn_regression_n_neighbors_1_3_9")  
 plt.show()
-
 
 # n_neighbors 변화에 따른 훈련 정확도와 테스트 정확도
 training_accuracy = []

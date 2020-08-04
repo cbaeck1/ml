@@ -6,7 +6,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import image
 
-# 데이터셋을 만듭니다.
+# 2. 두 개의 특성을 가진 forge 데이터셋
 X, y = mglearn.datasets.make_forge()
 print("X.shape: {}".format(X.shape))
 print("y.shape: {}".format(y.shape))
@@ -22,6 +22,7 @@ plt.title("Forge Scatter Plot")
 image.save_fig("Forge_Scatter")  
 plt.show()
 
+# 1. k-최근접 이웃 알고리즘 : 분류 
 # 가장 가까운 훈련 데이터 포인트 하나를 최근접 이웃으로 찾아 예측에 사용
 # 데이터 포인트 1개를 추가
 mglearn.plots.plot_knn_classification(n_neighbors=1)
@@ -42,7 +43,7 @@ print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
-# 모델 n_neighbors=3
+# 1. k-최근접 이웃 알고리즘 : 분류 
 from sklearn.neighbors import KNeighborsClassifier
 clf = KNeighborsClassifier(n_neighbors=3)
 # 훈련 세트를 사용하여 분류 모델을 학습
@@ -66,10 +67,8 @@ for n_neighbors, ax in zip([1, 3, 9], axes):
     ax.set_xlabel("특성 0")
     ax.set_ylabel("특성 1")
 axes[0].legend(loc=3)
-
 image.save_fig("Forge_KNN_n_neighbors_1_3_9")  
 plt.show()
-
 
 # n_neighbors 변화에 따른 훈련 정확도와 테스트 정확도
 training_accuracy = []

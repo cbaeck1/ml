@@ -1,63 +1,139 @@
 import pandas as pd
 import numpy as np
-import mglearn
+import mglearn, os
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import image
 
-# 데이터셋을 만듭니다. n_samples = 400
-X, y = mglearn.datasets.make_wave(n_samples=400)
-print("X.shape: {}".format(X.shape))
-print("y.shape: {}".format(y.shape))
-print(X[:5], y[:5])
+# 3. 위스콘신 유방암Wisconsin Breast Cancer 데이터셋입니다(줄여서 cancer라고 하겠습니다). 
+# 각 종양은 양성benign(해롭지 않은 종양)과 악성malignant(암 종양)으로 레이블되어 있고, 
+# 조직 데이터를 기반으로 종양이 악성인지를 예측할 수 있도록 학습하는 것이 과제
+from sklearn.datasets import load_breast_cancer
+cancer = load_breast_cancer()
+print("cancer.keys(): \n{}".format(cancer.keys()))
+print("유방암 데이터의 형태: {}".format(cancer.data.shape))
+print("클래스별 샘플 개수:\n{}".format(
+      {n: v for n, v in zip(cancer.target_names, np.bincount(cancer.target))}))
+print("특성 이름:\n{}".format(cancer.feature_names))
+print(cancer.data, cancer.target)
+print(cancer.data[:,:2])
 
-# 산점도 : 2개의 특성으로
-plt.plot(X, y, 'o')
-plt.ylim(-3, 3)
-plt.xlabel("특성")
-plt.ylabel("타깃")
-plt.title("Make Wave Scatter Plot")
-image.save_fig("Make_Wave_Scatter")  
+# 산점도를 그립니다. 2개의 특성과 1개의 타켓(2개의 값)으로
+mglearn.discrete_scatter(cancer.data[:, 0], cancer.data[:, 1], cancer.target)
+plt.legend(["클래스 0", "클래스 1"], loc=4)
+plt.xlabel("첫 번째 특성")
+plt.ylabel("두 번째 특성")
+plt.title("breast_cancer Scatter Plot")
+image.save_fig("breast_cancer_Scatter")  
 plt.show()
 
-# ŷ = w[0] × x[0] + b
-# 1차원 wave 데이터셋으로 파라미터 w[0]와 b를 직선이 되도록 학습
+# Scatterplot matrix with different color by group and kde
+import seaborn as sns
+cancer_data = pd.DataFrame(cancer['data'], columns=cancer.feature_names)
+cancer_data.info()
+print("cancer_data 크기: {}".format(cancer_data.shape))
+print("cancer_data 5개: {}".format(cancer_data.head()))
+cancer_target = pd.DataFrame(cancer['target'], columns=['targets'])
+cancer_target.info()
+print("cancer_target 크기: {}".format(cancer_target.shape))
+print("cancer_target 5개: {}".format(cancer_target.head()))
+# 사용할 특성의 갯수을 설정
+nCase = 7
+cancerDf = pd.merge(cancer_data.iloc[:,:nCase], cancer_target, left_index=True, right_index=True)
+print("cancer 크기: {}".format(cancerDf.shape))
+print("cancer 5개: {}".format(cancerDf.head()))
 
-mglearn.plots.plot_linear_regression_wave()
-image.save_fig("Make_Wave_regression")  
+# diag_kind='kde' 를 사용하여 각 변수별 커널밀도추정곡선
+# hue='targets'를 사용하여 색깔을 다르게 표시
+sns.pairplot(cancerDf, 
+             diag_kind='kde',
+             hue='targets', 
+             palette='bright') # pastel, bright, deep, muted, colorblind, dark
+image.save_fig("cancer_Scatter_by_seaborn")     
 plt.show()
 
-# 선형 회귀(최소제곱법)
+# 훈련 세트, 테스트 세트
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+   cancer.data, cancer.target, stratify=cancer.target, random_state=66)
+
 print("X_train 크기: {}".format(X_train.shape))
 print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
-# 선형 회귀는 예측과 훈련 세트에 있는 타깃 y 사이의 평균제곱오차(mean squared error)를 최소화하는 파라미터 w와 b를 찾습니다. 
-# 평균제곱오차는 예측값과 타깃값의 차이를 제곱하여 더한 후에 샘플의 개수로 나눈 것입니다. 
-# 선형 회귀는 매개변수가 없는 것이 장점이지만, 그래서 모델의 복잡도를 제어할 방법도 없습니다.
-from sklearn.linear_model import LinearRegression
-lr = LinearRegression().fit(X_train, y_train)
-# 기울기 파라미터(w)는 가중치weight 또는 계수coefficient라고 하며 lr 객체의 coef_ 속성
-# 편향offset 또는 절편intercept 파라미터(b)는 intercept_ 속성이다
-print("lr.coef_: {}".format(lr.coef_))
-print("lr.intercept_: {}".format(lr.intercept_))
+# X_train 데이터를 사용해서 데이터프레임을 만듭니다.
+# 열의 이름은 cancer.feature_names 에 있는 문자열을 사용합니다.
+# 사용할 특성의 갯수을 설정
+nCase = 30
+breast_cancer_df= pd.DataFrame(X_train[:,:nCase], columns=cancer.feature_names[:nCase])
+# 데이터프레임을 사용해  특성별 Historgram
+breast_cancer_df.plot.hist(alpha=0.5)
+plt.title("breast_cancer Histogram Plot")
+image.save_fig("breast_cancer_Histogram")
+plt.show() 
 
-print("훈련 세트 점수: {:.2f}".format(lr.score(X_train, y_train)))
-print("테스트 세트 점수: {:.2f}".format(lr.score(X_test, y_test)))
+# 데이터프레임을 사용해 y_train에 따라 색으로 구분된 산점도 행렬을 만듭니다.
+if nCase <= 10:
+    pd.plotting.scatter_matrix(breast_cancer_df, c=y_train, figsize=(15, 15), marker='o',
+    hist_kwds={'bins': 20}, s=20, alpha=.8, cmap=mglearn.cm3)
+    plt.title("breast_cancer Scatter Plot")
+    image.save_fig("breast_cancer_Scatter")  
+    plt.show()
+
+# 1. k-최근접 이웃 알고리즘 : 분류 
+from sklearn.neighbors import KNeighborsClassifier
+clf = KNeighborsClassifier(n_neighbors=3)
+# 훈련 세트를 사용하여 분류 모델을 학습
+clf.fit(X_train, y_train)
+print("훈련 세트 정확도: {:.2f}".format(clf.score(X_train, y_train)))
+# 예측
+prediction = clf.predict(X_test)
+print("테스트 세트 예측: {}".format(prediction))
+print("테스트 세트 정확도: {:.2f}".format(clf.score(X_test, y_test)))
+
+# n_neighbors 값이 각기 다른 최근접 이웃 모델이 만든 결정 경계
+# 이웃의 수를 늘릴수록 결정 경계는 더 부드러워집니다
+# 2개의 특성으로
+fig, axes = plt.subplots(1, 3, figsize=(20, 6))
+for n_neighbors, ax in zip([1, 3, 9], axes):
+    # fit 메서드는 self 객체를 반환합니다.
+    # 그래서 객체 생성과 fit 메서드를 한 줄에 쓸 수 있습니다.
+    clf = KNeighborsClassifier(n_neighbors=n_neighbors).fit(cancer.data[:,:2], cancer.target)
+    mglearn.plots.plot_2d_separator(clf, cancer.data[:,:2], fill=True, eps=0.5, ax=ax, alpha=.4)
+    mglearn.discrete_scatter(cancer.data[:, 0], cancer.data[:, 1], cancer.target, ax=ax)
+    ax.set_title("{} 이웃".format(n_neighbors))
+    ax.set_xlabel("특성 0")
+    ax.set_ylabel("특성 1")
+axes[0].legend(loc=3)
+
+image.save_fig("breast_cancer_KNN_n_neighbors_1_3_9")  
+plt.show()
 
 
+# n_neighbors 변화에 따른 훈련 정확도와 테스트 정확도
+training_accuracy = []
+test_accuracy = []
+# 1에서 10까지 n_neighbors를 적용
+neighbors_settings = range(1, 11)
 
+for n_neighbors in neighbors_settings:
+    # 모델 생성
+    clf = KNeighborsClassifier(n_neighbors=n_neighbors)
+    clf.fit(X_train, y_train)
+    # 훈련 세트 정확도 저장
+    training_accuracy.append(clf.score(X_train, y_train))
+    # 일반화 정확도 저장
+    test_accuracy.append(clf.score(X_test, y_test))
 
-
-
-
-
-
-
+plt.plot(neighbors_settings, training_accuracy, label="훈련 정확도")
+plt.plot(neighbors_settings, test_accuracy, label="테스트 정확도")
+plt.ylabel("정확도")
+plt.xlabel("n_neighbors")
+plt.legend()
+image.save_fig("breast_cancer_KNN_n_neighbors_1_10")  
+plt.show()
 
 
 
