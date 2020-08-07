@@ -13,10 +13,11 @@ import image
 # 5. 선형 회귀(최소제곱법)을 위한 wave 데이터셋.  n_samples = 40
 # 6. 세 개의 클래스를 가진 간단한 blobs 데이터셋
 # 7. scikit-learn에 구현된 나이브 베이즈 분류기는 GaussianNB, BernoulliNB, MultinomialNB 세가지
-# 8. 메모리 가격 동향 데이터 셋
+# 8. 메모리 가격 동향 데이터 셋 ram_prices
 # 9. 두 개의 클래스를 가진 2차원 데이터셋
 # 10. 두 개의 클래스를 가진 2차원 데이터셋
 # 11. 
+# 12. 뉴스그룹 데이터
 
 # 1. 히스토그램
 # 2. 산점도
@@ -24,10 +25,11 @@ import image
 # 1. k-최근접 이웃 알고리즘 : 분류, 회귀
 #    n_neighbors 변화에 따른 결정 경계   
 #    n_neighbors 변화에 따른 훈련 정확도와 테스트 정확도
-# 2. 선형모델 : 최소제곱, 릿지, 라쏘, 로지스틱, 다중 클래스 분류용 선형 모델
+# 2. 선형모델 : 최소제곱, 릿지, 라쏘, 선형분류모델(로지스틱, 서포트벡터머신), 다중분류 선형모델
 #    특성공학, 학습곡선    
 # 3. 나이브 베이즈 분류기
 # 4. 결정트리
+#    결정 트리 분석
 # 5. 결정트리 앙상블
 # 6. 서포트벡터머신
 # 7. 신경망
@@ -165,4 +167,15 @@ print("X.shape: {}".format(X.shape))
 print("y.shape: {}".format(y.shape))
 print(X[:5], y[:5])
 
+# 12. 뉴스그룹 데이터
+from sklearn.datasets import fetch_20newsgroups
+newsdata = fetch_20newsgroups(subset='train')
+print(newsdata['DESCR']+ "\n...")
+print("cancer.keys(): \n{}".format(newsdata.keys()))
+print("뉴스그룹 데이터의 형태: {}".format(newsdata.data.shape))
+print("클래스별 샘플 개수:\n{}".format(
+      {n: v for n, v in zip(newsdata.target_names, np.bincount(newsdata.target))}))
+print("특성 이름:\n{}".format(newsdata.feature_names))
+print(newsdata.data, newsdata.target)
+print(newsdata.data[:,:2])
 

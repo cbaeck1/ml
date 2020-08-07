@@ -76,6 +76,7 @@ if nCase <= 10:
     plt.show()
 
 # 1. k-최근접 이웃 알고리즘 : 분류 
+
 # 2. 선형모델 : 최소제곱
 from sklearn.linear_model import LinearRegression
 lr = LinearRegression().fit(X_train, y_train)
@@ -130,13 +131,12 @@ plt.show()
 plt.figure(figsize=(14, 8))
 mglearn.plots.plot_ridge_n_samples()
 plt.title("보스턴 주택가격 데이터셋에 대한 릿지 회귀와 선형 회귀의 학습 곡선")
-image.save_fig("boston_learning curve")
+image.save_fig("boston_learning_curve")
 plt.show() 
 
 # 2. 선형모델 : 라쏘
 # 계수를 0에 가깝게, L1 규제
 from sklearn.linear_model import Lasso
-
 lasso = Lasso().fit(X_train, y_train)
 # 과소적합이며 105개의 특성 중 4개만 사용
 print("2. 선형모델 : 라쏘 훈련 세트 점수: {:.2f}".format(lasso.score(X_train, y_train)))
@@ -174,12 +174,16 @@ plt.title("릿지 회귀와 alpha 값이 다른 라쏘 회귀의 계수 크기 �
 image.save_fig("boston_lasso_coef")
 plt.show() 
 
+# 2. 분류형 선형모델 
+# 1) 이진 분류 binary classification
+#   ŷ = w[0] × x[0] + w[1] × x[1] + … + w[p] × x[p] + b > 0
+#   예측한 값을 임계치 0과 비교 0보다 작으면 클래스를 -1이라고 예측하고 0보다 크면 +1이라고 예측
+#   분류용 선형 모델에서는 결정 경계가 입력의 선형 함수
+#   선형 모델을 학습시키는 알고리즘 두가지
+#     특정 계수와 절편의 조합이 훈련 데이터에 얼마나 잘 맞는지 측정하는 방법
+#     사용할 수 있는 규제가 있는지, 있다면 어떤 방식인지
+#   선형분류모델 : 로지스틱, 서포트 벡터 머신 
 
-# 2. 선형모델 : 로지스틱 
-# 예측한 값을 임계치 0과 비교 0보다 작으면 클래스를 -1이라고 예측하고 0보다 크면 +1이라고 예측
-# 분류용 선형 모델에서는 결정 경계가 입력의 선형 함수
-
-# 2. 선형모델 : 서포트 벡터 머신 
 
 
 

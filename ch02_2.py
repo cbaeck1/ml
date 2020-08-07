@@ -22,8 +22,7 @@ plt.title("Forge Scatter Plot")
 image.save_fig("Forge_Scatter")  
 plt.show()
 
-
-# 2. 선형모델 : 로지스틱, 서포트 벡터 머신 
+# 2. 선형분류모델 : 로지스틱, 서포트 벡터 머신 
 # 예측한 값을 임계치 0과 비교 0보다 작으면 클래스를 -1이라고 예측하고 0보다 크면 +1이라고 예측
 # 분류용 선형 모델에서는 결정 경계가 입력의 선형 함수
 from sklearn.linear_model import LogisticRegression
@@ -42,7 +41,7 @@ axes[0].legend()
 image.save_fig("Forge_svc_logistic")  
 plt.show()
 
-# LinearSVC와 LogisticRegression으로 만든 결정 경계가 직선으로 표현
+# LinearSVC 와 LogisticRegression으로 만든 결정 경계가 직선으로 표현
 # LogitsticRegression과 LinearSVC에서 규제의 강도를 결정하는 매개변수는 C입니다.
 # C의 값이 높아지면 규제가 감소
 # 알고리즘은 C의 값이 낮아지면 데이터 포인트 중 다수에 맞추려고 하는 반면, 
@@ -52,6 +51,4 @@ plt.show()
 mglearn.plots.plot_linear_svc_regularization()
 image.save_fig("Forge_svc_C")  
 plt.show()
-
-
 

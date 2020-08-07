@@ -66,5 +66,25 @@ def save_fig(fig_id, tight_layout=True, fig_extension="png", resolution=300):
     plt.savefig(path, format=fig_extension, dpi=resolution)
 
 
+import graphviz 
 
+def save_graph_as_svg(dot_string, output_file_name):
+    if type(dot_string) is str:
+        g = graphviz.Source(dot_string)
+    elif isinstance(dot_string, (graphviz.dot.Digraph, graphviz.dot.Graph)):
+        g = dot_string
+    g.format='svg'
+    g.filename = output_file_name
+    g.directory = './images/svg/'
+    g.render(view=False)
+    return g
 
+'''   Test 그림그리기  
+dot_graph = """
+graph graphname {
+    rankdir=LR;
+     a -- b -- c;
+     b -- d;
+}"""
+save_graph_as_svg(dot_graph, 'simple_dot_example1')
+'''

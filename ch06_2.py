@@ -23,8 +23,10 @@ image.save_fig("blobs_Scatter")
 plt.show()
 
 # 2. 선형모델 : 서포트 벡터 머신 
-# 이진 분류 알고리즘을 다중 클래스 분류 알고리즘으로 확장하는 보편적인 기법은 일대다one-vs.-rest 방법
+# 이진 분류 알고리즘을 다중 클래스 분류 알고리즘으로 확장하는 보편적인 기법은 일대다방법
 # 일대다 방식은 각 클래스를 다른 모든 클래스와 구분하도록 이진 분류 모델을 학습
+# 결국 클래스의 수만큼 이진 분류 모델이 만들어집니다. 
+# 예측을 할 때 이렇게 만들어진 모든 이진 분류기가 작동하여 가장 높은 점수를 내는 분류기의 클래스를 예측값으로 선택
 # 세 개의 클래스를 가진 간단한 데이터셋에 일대다 방식을 적용
 from sklearn.svm import LinearSVC
 linear_svm = LinearSVC().fit(X, y)
@@ -64,7 +66,7 @@ plt.title("세 개의 일대다 분류기가 만든 다중 클래스 결정 경�
 image.save_fig("blobs_Scatter_Crystal_boundary")  
 plt.show()
 
-# 선형 모델의 주요 매개변수는 회귀 모델에서는 alpha,  LinearSVC와 LogisticRegression에서는 C
+# 선형 모델의 주요 매개변수는 회귀 모델에서는 alpha,  LinearSVC와 LogisticRegression에서는 C 를 사용
 # 중요한 특성이 많지 않다고 생각하면 L1 규제를 사용, 기본적으로 L2 규제를 사용
 # L1 규제는 몇 가지 특성만 사용하므로 해당 모델에 중요한 특성이 무엇이고 그 효과가 어느 정도인지 설명하기 용이
 # 선형 모델은 학습 속도가 빠르고 예측도 빠릅니다. 

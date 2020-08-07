@@ -6,11 +6,12 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import image
 
-# 3. 위스콘신 유방암Wisconsin Breast Cancer 데이터셋입니다(줄여서 cancer라고 하겠습니다). 
+# 3. 위스콘신 유방암 Wisconsin Breast Cancer 데이터셋입니다(줄여서 cancer라고 하겠습니다). 
 # 각 종양은 양성benign(해롭지 않은 종양)과 악성malignant(암 종양)으로 레이블되어 있고, 
 # 조직 데이터를 기반으로 종양이 악성인지를 예측할 수 있도록 학습하는 것이 과제
 from sklearn.datasets import load_breast_cancer
 cancer = load_breast_cancer()
+print(cancer['DESCR']+ "\n...")
 print("cancer.keys(): \n{}".format(cancer.keys()))
 print("유방암 데이터의 형태: {}".format(cancer.data.shape))
 print("클래스별 샘플 개수:\n{}".format(
@@ -29,7 +30,7 @@ print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
-# 2. 선형모델 : 로지스틱, 서포트 벡터 머신 
+# 2. 선형분류모델 : 로지스틱, 서포트 벡터 머신 
 from sklearn.linear_model import LogisticRegression
 logreg = LogisticRegression().fit(X_train, y_train)
 print("2. 선형모델 : 로지스틱 훈련 세트 점수: {:.3f}".format(logreg.score(X_train, y_train)))
@@ -89,3 +90,10 @@ plt.show()
 
 
 # 다중 클래스 분류용 선형 모델
+# 로지스틱 회귀만 제외하고 많은 선형 분류 모델은 태생적으로 이진 분류만을 지원합니다. 다중 클래스를 지원하지 않습니다
+# 이진 분류 알고리즘을 다중 클래스 분류 알고리즘으로 확장하는 보편적인 기법은 일대다방법
+# 일대다 방식은 각 클래스를 다른 모든 클래스와 구분하도록 이진 분류 모델을 학습시킵니다. 
+# 결국 클래스의 수만큼 이진 분류 모델이 만들어집니다. 
+# 예측을 할 때 이렇게 만들어진 모든 이진 분류기가 작동하여 가장 높은 점수를 내는 분류기의 클래스를 예측값으로 선택
+
+
