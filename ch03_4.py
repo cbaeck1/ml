@@ -25,7 +25,6 @@ print(cancer.data[:,:2])
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(
    cancer.data, cancer.target, stratify=cancer.target, random_state=66)
-
 print("X_train 크기: {}".format(X_train.shape))
 print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))

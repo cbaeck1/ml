@@ -10,17 +10,7 @@ import image
 X, y = mglearn.datasets.make_forge()
 print("X.shape: {}".format(X.shape))
 print("y.shape: {}".format(y.shape))
-print(X, y)
-print(X[:, 0], X[:, 1])
-
-# 산점도를 그립니다. 2개의 특성과 1개의 타켓(2개의 값)
-mglearn.discrete_scatter(X[:, 0], X[:, 1], y)
-plt.legend(["클래스 0", "클래스 1"], loc=4)
-plt.xlabel("첫 번째 특성")
-plt.ylabel("두 번째 특성")
-plt.title("Forge Scatter Plot")
-image.save_fig("Forge_Scatter")  
-plt.show()
+print(X[:, 0], X[:, 1], y)
 
 # 1. k-최근접 이웃 알고리즘 : 분류 
 # 가장 가까운 훈련 데이터 포인트 하나를 최근접 이웃으로 찾아 예측에 사용

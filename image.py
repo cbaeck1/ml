@@ -86,5 +86,5 @@ graph graphname {
      a -- b -- c;
      b -- d;
 }"""
-save_graph_as_svg(dot_graph, 'simple_dot_example1')
+save_graph_as_svg(dot_graph, 'simple_dot_example2')
 '''

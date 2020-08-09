@@ -18,26 +18,6 @@ print("특성 이름:\n{}".format(boston.feature_names))
 print(boston.data, boston.target)
 print(boston.data[:,:2])
 
-# 산점도 : 1개의 특성, 1개의 타겟(숫자)
-plt.plot(boston.data[:, 0], boston.target, 'o')
-plt.ylim(0, 60)
-plt.xlabel("특성 CRIM : per capita crime rate by town")
-plt.ylabel("Target")
-plt.title("boston Scatter Plot")
-image.save_fig("boston_Scatter")  
-plt.show()
-
-# 히스토그램 : 열의 이름은 boston.feature_names
-# 사용할 특성의 갯수을 설정
-nCase = 10
-boston_df = pd.DataFrame(boston.data[:,:nCase], columns=boston.feature_names[:nCase])
-# 데이터프레임을 사용해  특성별 Historgram
-boston_df.plot.hist(alpha=0.5)
-plt.title("boston Histogram Plot")
-image.save_fig("boston_Histogram")
-plt.show() 
-
-
 
 # 특성 공학feature engineering : load_extended_boston
 # 13개의 원래 특성에 13개에서 2개씩 (중복을 포함해) 짝지은 91개의 특성을 더해 총 104개가 됩니다.
@@ -51,31 +31,10 @@ print(X, y)
 # 훈련 세트, 테스트 세트 random_state=66
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=66)
-
 print("X_train 크기: {}".format(X_train.shape))
 print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
-
-# X_train 데이터를 사용해서 데이터프레임을 만듭니다.
-# 열의 이름은 range로 표현
-# 사용할 특성의 갯수을 설정
-nCase = 4
-extended_boston_df = pd.DataFrame(X_train[:,:nCase], columns=range(nCase))
-# 데이터프레임을 사용해  특성별 Historgram
-extended_boston_df.plot.hist(alpha=0.5)
-plt.title("extended_boston Histogram Plot")
-image.save_fig("extended_boston_Histogram")
-plt.show() 
-
-# 데이터프레임을 사용해 y_train에 따라 색으로 구분된 산점도 행렬을 만듭니다.
-if nCase <= 10:
-    pd.plotting.scatter_matrix(extended_boston_df, c=y_train, figsize=(15, 15), marker='o',
-    hist_kwds={'bins': 20}, s=2, alpha=.8, cmap=mglearn.cm3)
-    plt.title("extended_boston Scatter Plot")
-    image.save_fig("extended_boston_Scatter")  
-    plt.show()
-
 
 # 1. k-최근접 이웃 알고리즘 : 분류 
 # Exception has occurred: ValueError Unknown label type: 'continuous'
