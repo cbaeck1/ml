@@ -17,20 +17,16 @@ print("데이터의 형태: {}".format(boston.data.shape))
 print("특성 이름:\n{}".format(boston.feature_names))
 print(boston.data, boston.target)
 print(boston.data[:,:2])
+print("boston.data 타입: {}".format(type(boston.data)))
+print("boston.target 타입: {}".format(type(boston.target)))
 
-
-# 특성 공학feature engineering : load_extended_boston
-# 13개의 원래 특성에 13개에서 2개씩 (중복을 포함해) 짝지은 91개의 특성을 더해 총 104개가 됩니다.
-# X, y : numpy ndarray
-X, y = mglearn.datasets.load_extended_boston()
-print("X.shape: {}".format(X.shape))
-print("y.shape: {}".format(y.shape))
-#print("특성 이름:\n{}".format(X.column_names))
-print(X, y)
-
+# target을 두개의 값으로 변경
+y_bin = np.array([0 if i < 20.0 else 1 for i in boston.target])
 # 훈련 세트, 테스트 세트 random_state=66
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=66)
+X_train, X_test, y_train, y_test = train_test_split(boston.data, y_bin, random_state=66)
+print("X_train 타입: {}".format(type(X_train)))
+print("y_train 타입: {}".format(type(y_train)))
 print("X_train 크기: {}".format(X_train.shape))
 print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
@@ -55,9 +51,9 @@ fig, axes = plt.subplots(1, 3, figsize=(10, 3))
 for n_neighbors, ax in zip([1, 3, 9], axes):
     # fit 메서드는 self 객체를 반환합니다.
     # 그래서 객체 생성과 fit 메서드를 한 줄에 쓸 수 있습니다.
-    clf = KNeighborsClassifier(n_neighbors=n_neighbors).fit(X, y)
-    mglearn.plots.plot_2d_separator(clf, X[:,:2], fill=True, eps=0.5, ax=ax, alpha=.4)
-    mglearn.discrete_scatter(X[:, 0], X[:, 1], y, ax=ax)
+    clf = KNeighborsClassifier(n_neighbors=n_neighbors).fit(X_train[:,:2], y_train)
+    mglearn.plots.plot_2d_separator(clf, X_train[:,:2], fill=True, eps=0.5, ax=ax, alpha=.4)
+    mglearn.discrete_scatter(X_train[:, 0], X_train[:, 1], y_train, ax=ax)
     ax.set_title("{} 이웃".format(n_neighbors))
     ax.set_xlabel("특성 0")
     ax.set_ylabel("특성 1")

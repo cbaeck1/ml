@@ -17,6 +17,7 @@ print("boston.keys(): \n{}".format(boston.keys()))
 print("데이터의 형태: {}".format(boston.data.shape))
 print("특성 이름:\n{}".format(boston.feature_names))
 print(boston.data, boston.target)
+print(boston.target.mean(), boston.target.min(), np.percentile(boston.target,25), np.percentile(boston.target,75), boston.target.max())
 print(boston.data[:,:2])
 
 # 산점도 : 1개의 특성, 1개의 타겟(숫자)
@@ -30,21 +31,49 @@ plt.show()
 
 # 히스토그램 : 열의 이름은 boston.feature_names
 # 사용할 특성의 갯수을 설정
-nCase = 10
+nCase = 13
 boston_df = pd.DataFrame(boston.data[:,:nCase], columns=boston.feature_names[:nCase])
 # 데이터프레임을 사용해  특성별 Historgram
-boston_df.plot.hist(alpha=0.5)
+boston_df.plot.hist(bins=100, alpha=0.5)
 plt.title("boston Histogram Plot")
 image.save_fig("boston_Histogram")
 plt.show() 
+
+#  다른방법으로 pairplot
+import seaborn as sns
+boston_data = pd.DataFrame(boston.data, columns=boston.feature_names)
+boston_data.info()
+print("boston_data 크기: {}".format(boston_data.shape))
+print("boston_data 5개: {}".format(boston_data.head()))
+# target을 세개의 값으로 변경
+y_bin = np.array([0 if i < 17.0 else (1 if i < 25.0 else 2) for i in boston.target])
+boston_target = pd.DataFrame(y_bin, columns=['priceType'])
+boston_target.info()
+print("boston_target 크기: {}".format(boston_target.shape))
+print("boston_target 5개: {}".format(boston_target.head()))
+boston = pd.merge(boston_data, boston_target, left_index=True, right_index=True)
+print("boston 크기: {}".format(boston.shape))
+print("boston 5개: {}".format(boston.head()))
+
+# diag_kind='kde' 를 사용하여 각 변수별 커널밀도추정곡선
+# hue='species'를 사용하여 'species' 종(setosa, versicolor, virginica) 별로 색깔을 다르게 표시
+sns.pairplot(boston, 
+             diag_kind='kde',
+             hue='priceType', 
+             palette='bright') # pastel, bright, deep, muted, colorblind, dark
+image.save_fig("Boston_Scatter_by_seaborn2")     
+plt.show()
+
 
 # 특성 공학feature engineering : load_extended_boston
 # 13개의 원래 특성에 13개에서 2개씩 (중복을 포함해) 짝지은 91개의 특성을 더해 총 104개가 됩니다.
 X, y = mglearn.datasets.load_extended_boston()
 print("X.shape: {}".format(X.shape))
 print("y.shape: {}".format(y.shape))
-print(X, y)
-print(X[:, 0], y)
+print("X 타입: {}".format(type(X)))
+print("y 타입: {}".format(type(y)))
+# print(X, y)
+print(X[:, 0], X[:, 1], y)
 
 # 훈련 세트, 테스트 세트 random_state=66
 from sklearn.model_selection import train_test_split
@@ -53,18 +82,19 @@ print("X_train 크기: {}".format(X_train.shape))
 print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
+print("X_train 타입: {}".format(type(X_train)))
+print("y_train 타입: {}".format(type(y_train)))
+print(X_train[:, 0], X_train[:, 1], y_train)
 
 # 산점도 비교 1:전체 2:X_train 3:X_test
 fig, axes = plt.subplots(1, 3, figsize=(15, 6))
 for X, y, title, ax in zip([X, X_train, X_test], [y, y_train, y_test], ['전체','X_train','X_test'], axes):
-  if y > 20.0: 
-    y = 1
-  else:
-    y = 0
-  mglearn.discrete_scatter(X[:, 0], X[:, 1], y, ax=ax)
+  # 산점도를 그립니다. 2개의 특성과 1개의 타켓(2개의 값)
+  y_bin = [0 if i < 20.0 else 1 for i in y]
+  mglearn.discrete_scatter(X[:, 5], X[:, 10], y_bin, ax=ax)
   ax.set_title("{}".format(title))
-  ax.set_xlabel("mean radius")
-  ax.set_ylabel("mean texture")
+  ax.set_xlabel("average number of rooms per dwelling")
+  ax.set_ylabel("TAX")
 
 axes[0].legend(loc=3)
 image.save_fig("boston_scatter_compare")  
@@ -73,19 +103,21 @@ plt.show()
 # X_train 데이터를 사용해서 데이터프레임을 만듭니다.
 # 열의 이름은 range로 표현
 # 사용할 특성의 갯수을 설정
-nCase = 4
-extended_boston_df = pd.DataFrame(X_train[:,:nCase], columns=range(nCase))
+nStart = 20
+nCase = 10
+extended_boston_df = pd.DataFrame(X_train[:,nStart:nStart+nCase], columns=range(nCase))
 # 데이터프레임을 사용해  특성별 Historgram
-extended_boston_df.plot.hist(alpha=0.5)
+extended_boston_df.plot.hist(bins=100, alpha=0.5)
 plt.title("extended_boston Histogram Plot")
 image.save_fig("extended_boston_Histogram")
 plt.show() 
 
 # 데이터프레임을 사용해 y_train에 따라 색으로 구분된 산점도 행렬을 만듭니다.
+y_bin = [0 if i < 20.0 else 1 for i in y_train]
 if nCase <= 10:
-    pd.plotting.scatter_matrix(extended_boston_df, c=y_train, figsize=(15, 15), marker='o',
-    hist_kwds={'bins': 20}, s=2, alpha=.8, cmap=mglearn.cm3)
-    plt.title("extended_boston Scatter Plot")
-    image.save_fig("extended_boston_Scatter")  
-    plt.show()
+  pd.plotting.scatter_matrix(extended_boston_df, c=y_bin, figsize=(15, 15), marker='o',
+  hist_kwds={'bins': 20}, s=2, alpha=.8, cmap=mglearn.cm3)
+  #plt.title("extended_boston Scatter Plot")
+  image.save_fig("extended_boston_Scatter")  
+  plt.show()
 

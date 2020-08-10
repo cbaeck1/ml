@@ -11,6 +11,7 @@ X, y = mglearn.datasets.make_forge()
 print("X.shape: {}".format(X.shape))
 print("y.shape: {}".format(y.shape))
 print("X 타입: {}".format(type(X)))
+print("y 타입: {}".format(type(y)))
 print(X[:, 0], X[:, 1], y)
 
 # 산점도를 그립니다. 2개의 특성과 1개의 타켓(2개의 값)

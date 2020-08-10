@@ -70,6 +70,7 @@ print("테스트 세트의 정확도: {:.2f}".format(clf.score(X_test, y_test)))
 fig, axes = plt.subplots(1, 3, figsize=(10, 3))
 for n_neighbors, ax in zip([1, 3, 9], axes):
     # fit 메서드는 self 객체를 반환 객체 생성과 fit 메서드를 한 줄에 
+    # plot_2d_separator 에서 그릴 X_train 갯수만큼만 fit 
     clf = KNeighborsClassifier(n_neighbors=n_neighbors).fit(X_train[:,:2], y_train)
     mglearn.plots.plot_2d_separator(clf, X_train[:,:2], fill=True, eps=0.5, ax=ax, alpha=.4)
     mglearn.discrete_scatter(X_train[:, 0], X_train[:, 1], y_train, ax=ax)
