@@ -18,26 +18,6 @@ print("특성 이름:\n{}".format(boston.feature_names))
 print(boston.data, boston.target)
 print(boston.data[:,:2])
 
-# 산점도 : 1개의 특성, 1개의 타겟(숫자)
-plt.plot(boston.data[:, 0], boston.target, 'o')
-plt.ylim(0, 60)
-plt.xlabel("특성 CRIM : per capita crime rate by town")
-plt.ylabel("Target")
-plt.title("boston Scatter Plot")
-image.save_fig("boston_Scatter")  
-plt.show()
-
-# 히스토그램 : 열의 이름은 boston.feature_names
-# 사용할 특성의 갯수을 설정
-nCase = 10
-boston_df = pd.DataFrame(boston.data[:,:nCase], columns=boston.feature_names[:nCase])
-# 데이터프레임을 사용해  특성별 Historgram
-boston_df.plot.hist(alpha=0.5)
-plt.title("boston Histogram Plot")
-image.save_fig("boston_Histogram")
-plt.show() 
-
-
 
 # 특성 공학feature engineering : load_extended_boston
 # 13개의 원래 특성에 13개에서 2개씩 (중복을 포함해) 짝지은 91개의 특성을 더해 총 104개가 됩니다.
@@ -55,28 +35,12 @@ print("X_train 크기: {}".format(X_train.shape))
 print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
+print("X_train 타입: {}".format(type(X_train)))
+print("y_train 타입: {}".format(type(y_train)))
+print(X_train[:, 0], X_train[:, 1], y_train)
 
-# X_train 데이터를 사용해서 데이터프레임을 만듭니다.
-# 열의 이름은 range로 표현
-# 사용할 특성의 갯수을 설정
-nCase = 4
-extended_boston_df = pd.DataFrame(X_train[:,:nCase], columns=range(nCase))
-# 데이터프레임을 사용해  특성별 Historgram
-extended_boston_df.plot.hist(alpha=0.5)
-plt.title("extended_boston_df Histogram Plot")
-image.save_fig("extended_boston_df_Histogram")
-plt.show() 
 
-# 데이터프레임을 사용해 y_train에 따라 색으로 구분된 산점도 행렬을 만듭니다.
-if nCase <= 10:
-    pd.plotting.scatter_matrix(extended_boston_df, c=y_train, figsize=(15, 15), marker='o',
-    hist_kwds={'bins': 20}, s=2, alpha=.8, cmap=mglearn.cm3)
-    plt.title("extended_boston_df Scatter Plot")
-    image.save_fig("extended_boston_df_Scatter")  
-    plt.show()
-
-# 1. k-최근접 이웃 알고리즘 : 분류 
-
+########################################################################
 # 2. 선형모델 : 최소제곱
 from sklearn.linear_model import LinearRegression
 lr = LinearRegression().fit(X_train, y_train)
@@ -90,7 +54,7 @@ print("2. 선형모델 : 최소제곱 테스트 세트 점수: {:.2f}".format(lr
 # 2. 선형모델 : 릿지
 # 가중치(w) 선택은 훈련 데이터를 잘 예측하기 위해서 뿐만 아니라 추가 제약 조건을 만족시키기 위한 목적도 있습니다.
 # 가중치의 절댓값을 가능한 한 작게 만드는 것입니다. 다시 말해서 w의 모든 원소가 0에 가깝게 
-# 이를 규제 regularization라고 합니다. 규제란 과대적합이 되지 않도록 모델을 강제로 제한한다는 의미입니다.
+# 이를 규제 regularization 라고 합니다. 규제란 과대적합이 되지 않도록 모델을 강제로 제한한다는 의미입니다.
 from sklearn.linear_model import Ridge
 ridge = Ridge().fit(X_train, y_train)
 print("2. 선형모델 : 릿지 훈련 세트 점수: {:.2f}".format(ridge.score(X_train, y_train)))
@@ -107,7 +71,6 @@ print("2. 선형모델 : 릿지alpha=0.1 테스트 세트 점수: {:.2f}".format
 # alpha=1일 때 Ridge 모델의 계수는 좀 더 커지고
 # alpha=0.1일 때 계수는 더 커지며 
 # 아무런 규제가 없는(alpha=0) 선형 회귀의 계수는 값이 더 커져 그림 밖으로 넘어갑니다.
-
 plt.figure(figsize=(14, 8))
 plt.plot(ridge10.coef_, '^', label="Ridge alpha=10")
 plt.plot(ridge.coef_, 's', label="Ridge alpha=1")
@@ -123,8 +86,8 @@ image.save_fig("boston_Ridge_coef")
 plt.show() 
 
 # 규제의 효과를 이해하는 또 다른 방법은 alpha 값을 고정하고 훈련 데이터의 크기를 변화시켜 보는 것입니다. 
-# 보스턴 주택가격 데이터셋에서 여러 가지 크기로 샘플링하여 LinearRegression과 Ridge(alpha=1)을 적용
-# 데이터셋의 크기에 따른 모델의 성능 변화를 나타낸 그래프를 학습 곡선learning curve이라고 합니다
+# 보스턴 주택가격 데이터셋에서 여러 가지 크기로 샘플링하여 LinearRegression과 Ridge(alpha=1) 을 적용
+# 데이터셋의 크기에 따른 모델의 성능 변화를 나타낸 그래프를 학습 곡선 learning curve 이라고 합니다
 # 릿지에는 규제가 적용되므로 릿지의 훈련 데이터 점수가 전체적으로 선형 회귀의 훈련 데이터 점수보다 낮습니다.
 # 그러나 테스트 데이터에서는 릿지의 점수가 더 높으며 특별히 작은 데이터셋에서는 더 그렇습니다.
 # 데이터셋 크기가 400 미만에서는 선형 회귀는 어떤 것도 학습하지 못하고 있습니다.
@@ -180,8 +143,8 @@ plt.show()
 #   예측한 값을 임계치 0과 비교 0보다 작으면 클래스를 -1이라고 예측하고 0보다 크면 +1이라고 예측
 #   분류용 선형 모델에서는 결정 경계가 입력의 선형 함수
 #   선형 모델을 학습시키는 알고리즘 두가지
-#     특정 계수와 절편의 조합이 훈련 데이터에 얼마나 잘 맞는지 측정하는 방법
-#     사용할 수 있는 규제가 있는지, 있다면 어떤 방식인지
+#     1) 특정 계수와 절편의 조합이 훈련 데이터에 얼마나 잘 맞는지 측정하는 방법
+#     2) 사용할 수 있는 규제가 있는지, 있다면 어떤 방식인지
 #   선형분류모델 : 로지스틱, 서포트 벡터 머신 
 
 

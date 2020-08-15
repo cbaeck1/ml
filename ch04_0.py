@@ -65,7 +65,7 @@ image.save_fig("Boston_Scatter_by_seaborn2")
 plt.show()
 
 
-# 특성 공학feature engineering : load_extended_boston
+# 특성 공학 feature engineering : load_extended_boston
 # 13개의 원래 특성에 13개에서 2개씩 (중복을 포함해) 짝지은 91개의 특성을 더해 총 104개가 됩니다.
 X, y = mglearn.datasets.load_extended_boston()
 print("X.shape: {}".format(X.shape))
@@ -86,11 +86,34 @@ print("X_train 타입: {}".format(type(X_train)))
 print("y_train 타입: {}".format(type(y_train)))
 print(X_train[:, 0], X_train[:, 1], y_train)
 
+# X_train 데이터를 사용해서 데이터프레임을 만듭니다.
+# 열의 이름은 range로 표현
+# 사용할 특성의 갯수을 설정
+nCase = 4
+extended_boston_df = pd.DataFrame(X_train[:,:nCase], columns=range(nCase))
+# 데이터프레임을 사용해  특성별 Historgram
+extended_boston_df.plot.hist(alpha=0.5)
+plt.title("extended_boston_df Histogram Plot")
+image.save_fig("extended_boston_df_Histogram")
+plt.show() 
+
+# 데이터프레임을 사용해 y_train에 따라 색으로 구분된 산점도 행렬을 만듭니다.
+if nCase <= 10:
+    pd.plotting.scatter_matrix(extended_boston_df, c=y_train, figsize=(15, 15), marker='o',
+    hist_kwds={'bins': 20}, s=2, alpha=.8, cmap=mglearn.cm3)
+    plt.title("extended_boston_df Scatter Plot")
+    image.save_fig("extended_boston_df_Scatter")  
+    plt.show()
+
+
+    
+
 # 산점도 비교 1:전체 2:X_train 3:X_test
 fig, axes = plt.subplots(1, 3, figsize=(15, 6))
 for X, y, title, ax in zip([X, X_train, X_test], [y, y_train, y_test], ['전체','X_train','X_test'], axes):
   # 산점도를 그립니다. 2개의 특성과 1개의 타켓(2개의 값)
-  y_bin = [0 if i < 20.0 else 1 for i in y]
+  # target을 세개의 값으로 변경
+  y_bin = np.array([0 if i < 17.0 else (1 if i < 25.0 else 2) for i in y])  
   mglearn.discrete_scatter(X[:, 5], X[:, 10], y_bin, ax=ax)
   ax.set_title("{}".format(title))
   ax.set_xlabel("average number of rooms per dwelling")
@@ -113,7 +136,7 @@ image.save_fig("extended_boston_Histogram")
 plt.show() 
 
 # 데이터프레임을 사용해 y_train에 따라 색으로 구분된 산점도 행렬을 만듭니다.
-y_bin = [0 if i < 20.0 else 1 for i in y_train]
+y_bin = np.array([0 if i < 17.0 else (1 if i < 25.0 else 2) for i in y_train])  
 if nCase <= 10:
   pd.plotting.scatter_matrix(extended_boston_df, c=y_bin, figsize=(15, 15), marker='o',
   hist_kwds={'bins': 20}, s=2, alpha=.8, cmap=mglearn.cm3)

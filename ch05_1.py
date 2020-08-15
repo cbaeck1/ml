@@ -10,16 +10,9 @@ import image
 X, y = mglearn.datasets.make_wave(n_samples=400)
 print("X.shape: {}".format(X.shape))
 print("y.shape: {}".format(y.shape))
+print("X 타입: {}".format(type(X)))
+print("y 타입: {}".format(type(y)))
 print(X[:5], y[:5])
-
-# 산점도 : 2개의 특성
-plt.plot(X, y, 'o')
-plt.ylim(-3, 3)
-plt.xlabel("특성")
-plt.ylabel("타깃")
-plt.title("Make Wave Scatter Plot")
-image.save_fig("Make_Wave_Scatter")  
-plt.show()
 
 # 1. k-최근접 이웃 알고리즘 : 회귀
 mglearn.plots.plot_knn_regression(n_neighbors=1)
@@ -38,6 +31,7 @@ print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
+########################################################################
 # 1. k-최근접 이웃 알고리즘 : 회귀
 # 이웃의 수를 3으로 하여 모델의 객체를 만듭니다.
 from sklearn.neighbors import KNeighborsRegressor

@@ -18,8 +18,9 @@ plt.title("로그 스케일로 그린 램 가격 동향")
 image.save_fig("ram_prices_plot")  
 plt.show()
 
-# 날짜 특성 하나만으로 2000년 전까지의 데이터로부터 2000년 후의 가격을 예측
+########################################################################
 # 4. 결정트리 vs 선형모델
+# 날짜 특성 하나만으로 2000년 전까지의 데이터로부터 2000년 후의 가격을 예측
 from sklearn.tree import DecisionTreeRegressor
 # 2000년 이전을 훈련 데이터로, 2000년 이후를 테스트 데이터로 만듭니다.
 data_train = ram_prices[ram_prices.date < 2000] data_test = ram_prices[ram_prices.date >= 2000]

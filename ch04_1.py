@@ -20,8 +20,10 @@ print(boston.data[:,:2])
 print("boston.data 타입: {}".format(type(boston.data)))
 print("boston.target 타입: {}".format(type(boston.target)))
 
-# target을 두개의 값으로 변경
-y_bin = np.array([0 if i < 20.0 else 1 for i in boston.target])
+# Exception has occurred: ValueError Unknown label type: 'continuous'
+# target을 세개의 값으로 변경
+y_bin = np.array([0 if i < 17.0 else (1 if i < 25.0 else 2) for i in boston.target])
+
 # 훈련 세트, 테스트 세트 random_state=66
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(boston.data, y_bin, random_state=66)
@@ -32,8 +34,9 @@ print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
+########################################################################
 # 1. k-최근접 이웃 알고리즘 : 분류 
-# Exception has occurred: ValueError Unknown label type: 'continuous'
+
 from sklearn.neighbors import KNeighborsClassifier
 clf = KNeighborsClassifier(n_neighbors=3)
 # 훈련 세트를 사용하여 분류 모델을 학습
@@ -47,8 +50,8 @@ print("테스트 세트 정확도: {:.2f}".format(clf.score(X_test, y_test)))
 # n_neighbors 값이 각기 다른 최근접 이웃 모델이 만든 결정 경계
 # 이웃의 수를 늘릴수록 결정 경계는 더 부드러워집니다
 # 2개 특성만으로 
-fig, axes = plt.subplots(1, 3, figsize=(10, 3))
-for n_neighbors, ax in zip([1, 3, 9], axes):
+fig, axes = plt.subplots(1, 4, figsize=(10, 4))
+for n_neighbors, ax in zip([1, 3, 6, 9], axes):
     # fit 메서드는 self 객체를 반환합니다.
     # 그래서 객체 생성과 fit 메서드를 한 줄에 쓸 수 있습니다.
     clf = KNeighborsClassifier(n_neighbors=n_neighbors).fit(X_train[:,:2], y_train)
@@ -57,7 +60,7 @@ for n_neighbors, ax in zip([1, 3, 9], axes):
     ax.set_title("{} 이웃".format(n_neighbors))
     ax.set_xlabel("특성 0")
     ax.set_ylabel("특성 1")
-axes[0].legend(loc=3)
+axes[0].legend(loc=4)
 image.save_fig("etended_boston_KNN_n_neighbors_1_3_9")  
 plt.show()
 

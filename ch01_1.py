@@ -38,6 +38,7 @@ print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
+########################################################################
 # 1. k-최근접 이웃 알고리즘
 # scikit-learn의 모든 머신러닝 모델은 Estimator라는 파이썬 클래스로 각각 구현
 # k-최근접 이웃 분류 알고리즘은 neighbors 모듈 아래 KNeighborsClassifier 클래스에 구현

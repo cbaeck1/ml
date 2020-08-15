@@ -10,16 +10,9 @@ import image
 X, y = mglearn.datasets.make_wave(n_samples=40)
 print("X.shape: {}".format(X.shape))
 print("y.shape: {}".format(y.shape))
+print("X 타입: {}".format(type(X)))
+print("y 타입: {}".format(type(y)))
 print(X[:5], y[:5])
-
-# 산점도 : 2개의 특성으로
-plt.plot(X, y, 'o')
-plt.ylim(-3, 3)
-plt.xlabel("특성")
-plt.ylabel("타깃")
-plt.title("Make Wave Scatter Plot")
-image.save_fig("Make_Wave_Scatter")  
-plt.show()
 
 # ŷ = w[0] × x[0] + b
 # 1차원 wave 데이터셋으로 파라미터 w[0]와 b를 직선이 되도록 학습
@@ -52,6 +45,7 @@ print("lr.intercept_: {}".format(lr.intercept_))
 print("2. 선형모델 : 최소제곱 훈련 세트 점수: {:.2f}".format(lr.score(X_train, y_train)))
 print("2. 선형모델 : 최소제곱 테스트 세트 점수: {:.2f}".format(lr.score(X_test, y_test)))
 
+########################################################################
 # 2. 선형모델 : 릿지
 from sklearn.linear_model import Ridge
 ridge = Ridge().fit(X_train, y_train)
@@ -70,6 +64,11 @@ print("2. 선형모델 : 릿지alpha=0.1 테스트 세트 점수: {:.2f}".format
 # 좋은 매개변수를 선택하는 방법은 5장에서 
 # alpha 값과 coef_ 속성과의 관계
 # 높은 alpha 값은 제약이 더 많은 모델이므로 작은 alpha 값일 때보다 coef_의 절댓값 크기가 작을 것이라고 예상할 수 있습니다
+# x 축은 coef_의 원소를 위치대로 나열한 것입니다. 
+# 즉 x=0은 첫 번째 특성에 연관된 계수이고 x=1은 두 번째 특성에 연관된 계수입니다. 이런 식으로 x=100까지 계속됩니다. 
+# y 축은 각 계수의 수치를 나타냅니다. alpha=10일 때 대부분의 계수는 -3과 3 사이에 위치
+# alpha=1일 때 Ridge 모델의 계수는 좀 더 커졌습니다. 
+# alpha=0.1일 때 계수는 더 커지며 아무런 규제가 없는(alpha=0) 선형 회귀의 계수는 값이 더 커져 그림 밖으로 넘어갑니다
 
 plt.figure(figsize=(14, 8))
 plt.plot(ridge10.coef_, '^', label="Ridge alpha=10")

@@ -30,6 +30,7 @@ print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
+########################################################################
 # 4. 결정트리
 # 유방암 데이터셋을 이용하여 사전 가지치기의 효과를 확인
 from sklearn.tree import DecisionTreeClassifier

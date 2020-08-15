@@ -33,6 +33,7 @@ print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
+########################################################################
 # 1. k-최근접 이웃 알고리즘 : 분류 
 from sklearn.neighbors import KNeighborsClassifier
 clf = KNeighborsClassifier(n_neighbors=3)

@@ -30,6 +30,7 @@ print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
+########################################################################
 # 2. 선형분류모델 : 로지스틱, 서포트 벡터 머신 
 from sklearn.linear_model import LogisticRegression
 logreg = LogisticRegression().fit(X_train, y_train)
