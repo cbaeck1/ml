@@ -88,16 +88,17 @@ image.save_graph_as_svg(dot_graph, "3.cancer_decision_tree_depth4")
 print("특성 중요도:\n{}".format(tree4.feature_importances_))
 
 # 선형 모델의 계수를 시각화하는 것과 비슷한 방법으로 특성 중요도도 시각화
-def plot_feature_importances_cancer(model):
-    n_features = cancer.data.shape[1]
-    plt.barh(range(n_features), model.feature_importances_, align='center')
-    plt.yticks(np.arange(n_features), cancer.feature_names)
-    plt.xlabel("특성 중요도")
-    plt.ylabel("특성")
-    plt.ylim(-1, n_features)
+# def plot_feature_importances_cancer(model):
+#     n_features = cancer.data.shape[1]
+#     plt.barh(range(n_features), model.feature_importances_, align='center')
+#     plt.yticks(np.arange(n_features), cancer.feature_names)
+#     plt.xlabel("특성 중요도")
+#     plt.ylabel("특성")
+#     plt.ylim(-1, n_features)
 
+# 선형 모델의 계수를 시각화하는 것과 비슷한 방법으로 특성 중요도도 시각화
 # 첫 번째 노드에서 사용한 특성(“worst radius”)이 가장 중요한 특성
-plot_feature_importances_cancer(tree4)
+image.plot_feature_importances(tree4, cancer.data, cancer.feature_names)
 plt.title('유방암 데이터로 학습시킨 결정 트리의 특성 중요도')
 image.save_fig("3.cancer_tree_depth4_feature_importances")  
 plt.show()
@@ -110,7 +111,7 @@ tree_not_monotone = mglearn.plots.plot_tree_not_monotone()
 # tree_not_monotone.render('cancer_decision_tree_not_monotone',view=True)
 image.save_graph_as_svg(tree_not_monotone, "3.cancer_decision_tree_not_monotone")  
 
-
+# 
 plt.title('X[1]에 있는 정보만 사용 학습한 결정 트리')
 image.save_fig("3.cancer_decision_tree_not_monotone")  
 plt.show()

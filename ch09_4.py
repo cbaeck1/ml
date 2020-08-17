@@ -82,12 +82,12 @@ image.save_graph_as_svg(dot_graph, "9.make_moons_decision_tree_depth0")
 
 # max_depth를 12개 까지 
 fig, axes = plt.subplots(3, 4, figsize=(20, 10))
-print(type(axes), type(axes.ravel()))
-for i in range(1, 12):
-    #print(type(ax))
+# print(type(axes), type(axes.ravel()))
+for i in range(12):
+    # print(type(ax))
     ax = axes.ravel()[i]
     ax.set_title("트리 {}".format(i))
-    tree = DecisionTreeClassifier(max_depth=i, random_state=0)
+    tree = DecisionTreeClassifier(max_depth=i+1, random_state=0)
     tree.fit(X, y)
     mglearn.plots.plot_tree_partition(X, y, tree, ax=ax)
 
@@ -130,15 +130,7 @@ print("테스트 세트 max_depth=4 정확도: {:.3f}".format(tree4.score(X_test
 print("특성 중요도: {}".format(tree3.feature_importances_))
 
 # 선형 모델의 계수를 시각화하는 것과 비슷한 방법으로 특성 중요도도 시각화
-def plot_feature_importances_make_moons(model):
-    n_features = X.shape[1]
-    plt.barh(range(n_features), model.feature_importances_, align='center')
-    plt.yticks(np.arange(n_features), ["특성1", "특성2"])
-    plt.xlabel("특성 중요도")
-    plt.ylabel("특성")
-    plt.ylim(-1, n_features)
-
-plot_feature_importances_make_moons(tree3)
+image.plot_feature_importances(tree3, X_train, list(range(2)))
 plt.title('데이터로 학습시킨 결정 트리의 특성 중요도')
 image.save_fig("9.make_moons_tree_depth3_feature_importances")  
 plt.show()

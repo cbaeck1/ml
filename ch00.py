@@ -32,7 +32,7 @@ import image
 # 4. 결정트리
 #    결정 트리 분석
 # 5. 결정트리 앙상블 : 랜덤 포레스트, 그래디언트 부스팅
-# 6. 서포트벡터머신
+# 6. 커널서포트벡터머신
 # 7. 신경망
 
 
@@ -140,7 +140,7 @@ print("X_train.shape: {}".format(X_train.shape))
 print("y_train.shape: {}".format(y_train.shape))
 print(X_train[:5], y_train[:5])
 
-# 9. 두 개의 클래스를 가진 2차원 데이터셋
+# 9. 두 개의 클래스를 가진 2차원 데이터셋 make_moons
 from sklearn.datasets import make_moons
 X, y = make_moons(n_samples=100, noise=0.25, random_state=3)
 print("X.shape: {}".format(X.shape))

@@ -1,4 +1,6 @@
 import os
+import pandas as pd
+import numpy as np
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -64,6 +66,15 @@ def save_fig(fig_id, tight_layout=True, fig_extension="png", resolution=300):
     if tight_layout:
         plt.tight_layout()
     plt.savefig(path, format=fig_extension, dpi=resolution)
+
+# 선형 모델의 계수를 시각화하는 것과 비슷한 방법으로 특성 중요도도 시각화
+def plot_feature_importances(model, data, feature_names):
+    n_features = data.shape[1]
+    plt.barh(range(n_features), model.feature_importances_, align='center')
+    plt.yticks(np.arange(n_features), feature_names)
+    plt.xlabel("특성 중요도")
+    plt.ylabel("특성")
+    plt.ylim(-1, n_features)
 
 
 import graphviz 

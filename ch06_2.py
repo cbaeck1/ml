@@ -13,7 +13,7 @@ print("X.shape: {}".format(X.shape))
 print("y.shape: {}".format(y.shape))
 print("X 타입: {}".format(type(X)))
 print("y 타입: {}".format(type(y)))
-print(X[:5], y[:5])
+print(X, y)
 
 ########################################################################
 # 2. 선형모델 : 서포트 벡터 머신 
