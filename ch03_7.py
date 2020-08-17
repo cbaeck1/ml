@@ -23,7 +23,8 @@ print(cancer.data[:,:2])
 
 # 훈련 세트, 테스트 세트
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, stratify=cancer.target, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, 
+      stratify=cancer.target, random_state=0)
 print("X_train 크기: {}".format(X_train.shape))
 print("y_train 크기: {}".format(y_train.shape))
 print("X_train 타입: {}".format(type(X_train)))
@@ -32,51 +33,53 @@ print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
 ########################################################################
-# 7. 커널 서포트 벡터 머신 
-# RBF 커널 SVM을 유방암 데이터셋에 적용해보겠습니다. 기본값 C=1, gamma=1/n_features를 사용
+# 7. 딥러닝
 
-from sklearn.svm import SVC
-svc = SVC()
-svc.fit(X_train, y_train)
-print("훈련 세트 정확도: {:.2f}".format(svc.score(X_train, y_train)))
-print("테스트 세트 정확도: {:.2f}".format(svc.score(X_test, y_test)))
+print("유방암 데이터의 특성별 최댓값:\n{}".format(cancer.data.max(axis=0)))
 
+from sklearn.neural_network import MLPClassifier
+mlp = MLPClassifier(random_state=42)
+mlp.fit(X_train, y_train)
+print("훈련 세트 정확도: {:.2f}".format(mlp.score(X_train, y_train)))
+print("테스트 세트 정확도: {:.2f}".format(mlp.score(X_test, y_test)))
 
-plt.boxplot(X_train, manage_ticks=False)
-plt.yscale("symlog")
-plt.xlabel("특성 목록")
-plt.ylabel("특성 크기")
-plt.title('유방암 데이터셋의 특성 값 범위(y 축은 로그 스케일)')
-image.save_fig("3.cancer_rbf_Scatter")  
+# 훈련 세트 각 특성의 평균을 계산합니다.
+mean_on_train = X_train.mean(axis=0)
+# 훈련 세트 각 특성의 표준 편차를 계산합니다.
+std_on_train = X_train.std(axis=0)
+
+# 데이터에서 평균을 빼고 표준 편차로 나누면
+# 평균 0, 표준 편차 1인 데이터로 변환됩니다.
+X_train_scaled = (X_train - mean_on_train) / std_on_train
+# (훈련 데이터의 평균과 표준 편차를 이용해) 같은 변환을 테스트 세트에도 합니다.
+X_test_scaled = (X_test - mean_on_train) / std_on_train
+mlp = MLPClassifier(random_state=0)
+mlp.fit(X_train_scaled, y_train)
+print("훈련 세트 정확도: {:.3f}".format(mlp.score(X_train_scaled, y_train)))
+print("테스트 세트 정확도: {:.3f}".format(mlp.score(X_test_scaled, y_test)))
+
+# 
+mlp = MLPClassifier(max_iter=1000, random_state=0)
+mlp.fit(X_train_scaled, y_train)
+print("훈련 세트 정확도: {:.3f}".format(mlp.score(X_train_scaled, y_train)))
+print("테스트 세트 정확도: {:.3f}".format(mlp.score(X_test_scaled, y_test)))
+
+#
+mlp = MLPClassifier(max_iter=1000, alpha=1, random_state=0)
+mlp.fit(X_train_scaled, y_train)
+print("훈련 세트 정확도: {:.3f}".format(mlp.score(X_train_scaled, y_train)))
+print("테스트 세트 정확도: {:.3f}".format(mlp.score(X_test_scaled, y_test)))
+
+#
+plt.figure(figsize=(20, 5))
+plt.imshow(mlp.coefs_[0], interpolation='none', cmap='viridis')
+plt.yticks(range(30), cancer.feature_names)
+plt.xlabel("은닉 유닛")
+plt.ylabel("입력 특성")
+plt.colorbar()
+plt.title('유방암 데이터셋으로 학습시킨 신경망의 첫 번째 층의 가중치 히트맵')
+image.save_fig("3.cancer_heat map_Scatter")  
 plt.show()
-
-# SVM을 위한 데이터 전처리
-# 커널 SVM에서는 모든 특성 값을 0과 1 사이로 맞추는 방법을 많이 사용
-
-# 훈련 세트에서 특성별 최솟값 계산
-min_on_training = X_train.min(axis=0)
-# 훈련 세트에서 특성별 (최댓값 - 최솟값) 범위 계산
-range_on_training = (X_train - min_on_training).max(axis=0)
-
-# 훈련 데이터에 최솟값을 빼고 범위로 나누면
-# 각 특성에 대해 최솟값은 0, 최대값은 1입니다.
-X_train_scaled = (X_train - min_on_training) / range_on_training
-print("특성별 최소 값\n{}".format(X_train_scaled.min(axis=0)))
-print("특성별 최대 값\n {}".format(X_train_scaled.max(axis=0)))
-
-# 테스트 세트에도 같은 작업을 적용하지만
-# 훈련 세트에서 계산한 최솟값과 범위를 사용합니다(자세한 내용은 3장에 있습니다).
-X_test_scaled = (X_test - min_on_training) / range_on_training
-
-svc = SVC()
-svc.fit(X_train_scaled, y_train)
-print("훈련 세트 정확도: {:.3f}".format(svc.score(X_train_scaled, y_train)))
-print("테스트 세트 정확도: {:.3f}".format(svc.score(X_test_scaled, y_test)))
-
-svc = SVC(C=1000)
-svc.fit(X_train_scaled, y_train)
-print("훈련 세트 정확도: {:.3f}".format(svc.score(X_train_scaled, y_train)))
-print("테스트 세트 정확도: {:.3f}".format(svc.score(X_test_scaled, y_test)))
 
 
 
