@@ -1,0 +1,8 @@
+digraph Tree {
+node [shape=box, style="filled", color="black"] ;
+0 [label="특성1 <= 0.06\nsamples = 100\nvalue = [50, 50]\nclass = X1", fillcolor="#ffffff"] ;
+1 [label="samples = 34\nvalue = [2, 32]\nclass = X2", fillcolor="#45a3e7"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="samples = 66\nvalue = [48, 18]\nclass = X1", fillcolor="#efb083"] ;
+0 -> 2 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+}

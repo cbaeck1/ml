@@ -54,7 +54,7 @@ plt.show()
 
 # 그림을 저장할 위치
 PROJECT_ROOT_DIR = "."
-CHAPTER_ID = "end_to_end_project"
+CHAPTER_ID = "ml"
 IMAGES_PATH = os.path.join(PROJECT_ROOT_DIR, "images", CHAPTER_ID)
 os.makedirs(IMAGES_PATH, exist_ok=True)
 
@@ -71,12 +71,16 @@ import graphviz
 def save_graph_as_svg(dot_string, output_file_name):
     if type(dot_string) is str:
         g = graphviz.Source(dot_string)
-    elif isinstance(dot_string, (graphviz.dot.Digraph, graphviz.dot.Graph)):
+    elif isinstance(dot_string, (graphviz.dot.Digraph, graphviz.dot.Graph, graphviz.files.Source)):
         g = dot_string
+    else:
+        print('지원하지 않는 그림형식')
+        return 
+
     g.format='svg'
     g.filename = output_file_name
     g.directory = './images/svg/'
-    g.render(view=False)
+    g.render(view=True)
     return g
 
 '''   Test 그림그리기  
@@ -88,3 +92,4 @@ graph graphname {
 }"""
 save_graph_as_svg(dot_graph, 'simple_dot_example2')
 '''
+

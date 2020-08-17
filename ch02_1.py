@@ -58,7 +58,7 @@ for n_neighbors, ax in zip([1, 3, 9], axes):
     ax.set_xlabel("특성 0")
     ax.set_ylabel("특성 1")
 axes[0].legend(loc=3)
-image.save_fig("Forge_KNN_n_neighbors_1_3_9")  
+image.save_fig("2.Forge_KNN_n_neighbors_1_3_9")  
 plt.show()
 
 # n_neighbors 변화에 따른 훈련 정확도와 테스트 정확도
@@ -81,6 +81,6 @@ plt.plot(neighbors_settings, test_accuracy, label="테스트 정확도")
 plt.ylabel("정확도")
 plt.xlabel("n_neighbors")
 plt.legend()
-image.save_fig("Forge_KNN_n_neighbors_1_10")  
+image.save_fig("2.Forge_KNN_n_neighbors_1_10")  
 plt.show()
 

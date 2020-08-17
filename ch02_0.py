@@ -20,7 +20,7 @@ plt.legend(["클래스 0", "클래스 1"], loc=4)
 plt.xlabel("첫 번째 특성")
 plt.ylabel("두 번째 특성")
 plt.title("Forge Scatter Plot")
-image.save_fig("Forge_Scatter")  
+image.save_fig("2.Forge_Scatter")  
 plt.show()
 
 # 훈련 세트, 테스트 세트
@@ -37,7 +37,7 @@ plt.legend(["클래스 0", "클래스 1"], loc=4)
 plt.xlabel("첫 번째 특성")
 plt.ylabel("두 번째 특성")
 plt.title("Forge Scatter Plot")
-image.save_fig("Forge_Scatter_by_X_train")  
+image.save_fig("2.Forge_Scatter_by_X_train")  
 plt.show()
 
 # 산점도 비교 1:전체 2:X_train 3:X_test
@@ -49,7 +49,7 @@ for X, y, title, ax in zip([X, X_train, X_test], [y, y_train, y_test], ['전체'
   ax.set_ylabel("특성 1")
 
 axes[0].legend(loc=3)
-image.save_fig("Forge_scatter_compare")  
+image.save_fig("2.Forge_scatter_compare")  
 plt.show()
 
 

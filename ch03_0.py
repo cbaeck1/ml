@@ -27,7 +27,7 @@ plt.legend(["클래스 0", "클래스 1"], loc=4)
 plt.xlabel("mean radius")
 plt.ylabel("mean texture")
 plt.title("breast_cancer Scatter Plot")
-image.save_fig("breast_cancer_Scatter")  
+image.save_fig("3.breast_cancer_Scatter")  
 plt.show()
 
 # 훈련 세트, 테스트 세트
@@ -48,7 +48,7 @@ for X, y, title, ax in zip([cancer.data, X_train, X_test], [cancer.target, y_tra
   ax.set_ylabel("mean texture")
 
 axes[0].legend(loc=3)
-image.save_fig("breast_cancer_scatter_compare")  
+image.save_fig("3.breast_cancer_scatter_compare")  
 plt.show()
 
 # X_train 데이터를 사용해서 데이터프레임을 만듭니다.
@@ -57,9 +57,9 @@ plt.show()
 nCase = 29
 breast_cancer_df= pd.DataFrame(X_train[:,:nCase], columns=cancer.feature_names[:nCase])
 # 데이터프레임을 사용해  특성별 Historgram
-breast_cancer_df.plot.hist(alpha=0.5, bins=100)
+breast_cancer_df.plot.hist(alpha=0.5, bins=100, figsize=(10, 10))
 plt.title("breast_cancer Histogram Plot")
-image.save_fig("breast_cancer_Histogram")
+image.save_fig("3.breast_cancer_Histogram")
 plt.show() 
 
 # 데이터프레임을 사용해 y_train에 따라 색으로 구분된 산점도 행렬을 만듭니다.
@@ -67,7 +67,7 @@ if nCase <= 10:
     pd.plotting.scatter_matrix(breast_cancer_df, c=y_train, figsize=(15, 15), marker='o',
     hist_kwds={'bins': 20}, s=20, alpha=.8, cmap=mglearn.cm3)
     plt.title("breast_cancer Scatter Plot")
-    image.save_fig("breast_cancer_scatter_X_train")  
+    image.save_fig("3.breast_cancer_scatter_X_train")  
     plt.show()
 
 
@@ -93,6 +93,6 @@ sns.pairplot(cancerDf,
              diag_kind='kde',
              hue='targets', 
              palette='bright') # pastel, bright, deep, muted, colorblind, dark
-image.save_fig("breast_cancer_Scatter_by_seaborn")     
+image.save_fig("3.breast_cancer_Scatter_by_seaborn")     
 plt.show()
 

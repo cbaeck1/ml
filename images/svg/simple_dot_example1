@@ -1,6 +1,0 @@
-
-graph graphname {
-    rankdir=LR;
-     a -- b -- c;
-     b -- d;
-}

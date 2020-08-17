@@ -19,7 +19,7 @@ plt.legend(["클래스 0", "클래스 1"], loc=4)
 plt.xlabel("첫 번째 특성")
 plt.ylabel("두 번째 특성")
 plt.title("Forge Scatter Plot")
-image.save_fig("Forge_Scatter")  
+image.save_fig("2.Forge_Scatter")  
 plt.show()
 
 ########################################################################
@@ -39,7 +39,7 @@ for model, ax in zip([LinearSVC(), LogisticRegression()], axes):
     ax.set_xlabel("특성 0")
     ax.set_ylabel("특성 1")
 axes[0].legend()
-image.save_fig("Forge_svc_logistic")  
+image.save_fig("2.Forge_svc_logistic")  
 plt.show()
 
 # LinearSVC 와 LogisticRegression으로 만든 결정 경계가 직선으로 표현
@@ -50,6 +50,6 @@ plt.show()
 # LinearSVC를 사용한 예
 # forge 데이터셋에 각기 다른 C 값으로 만든 선형 SVM 모델의 결정 경계
 mglearn.plots.plot_linear_svc_regularization()
-image.save_fig("Forge_svc_C")  
+image.save_fig("2.Forge_svc_C")  
 plt.show()
 
