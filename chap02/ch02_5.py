@@ -16,7 +16,6 @@ print("X 타입: {}".format(type(X)))
 print("y 타입: {}".format(type(y)))
 print(X[:5], y[:5])
 
-
 # 특성이 많은 데이터셋이라면 선형 모델은 매우 훌륭한 성능을 낼 수 있습니다. 
 # 특히 훈련 데이터보다 특성이 더 많은 경우엔 어떤 타깃 y도 완벽하게 (훈련 세트에 대해서) 선형 함수로 모델링할 수 있습니다
 # 선형모델 : 최소제곱, 릿지, 라쏘
@@ -47,16 +46,16 @@ print("2. 선형모델 : 최소제곱 테스트 세트 점수: {:.2f}".format(lr
 #   -> 특성이 하나이면 alpha 값에 관계없이 최소제곱과 같음
 from sklearn.linear_model import Ridge
 ridge = Ridge().fit(X_train, y_train)
-print("2. 선형모델 : 릿지 훈련 세트 점수: {:.2f}".format(ridge.score(X_train, y_train)))
-print("2. 선형모델 : 릿지 테스트 세트 점수: {:.2f}".format(ridge.score(X_test, y_test)))
+print("2.1 선형모델 : 릿지 훈련 세트 점수: {:.2f}".format(ridge.score(X_train, y_train)))
+print("2.1 선형모델 : 릿지 테스트 세트 점수: {:.2f}".format(ridge.score(X_test, y_test)))
 
 ridge10 = Ridge(alpha=10).fit(X_train, y_train)
-print("2. 선형모델 : 릿지alpha=10 훈련 세트 점수: {:.2f}".format(ridge10.score(X_train, y_train)))
-print("2. 선형모델 : 릿지alpha=10 테스트 세트 점수: {:.2f}".format(ridge10.score(X_test, y_test)))
+print("2.1 선형모델 : 릿지alpha=10 훈련 세트 점수: {:.2f}".format(ridge10.score(X_train, y_train)))
+print("2.1 선형모델 : 릿지alpha=10 테스트 세트 점수: {:.2f}".format(ridge10.score(X_test, y_test)))
 
 ridge01 = Ridge(alpha=0.1).fit(X_train, y_train)
-print("2. 선형모델 : 릿지alpha=0.1 훈련 세트 점수: {:.2f}".format(ridge01.score(X_train, y_train)))
-print("2. 선형모델 : 릿지alpha=0.1 테스트 세트 점수: {:.2f}".format(ridge01.score(X_test, y_test)))
+print("2.1 선형모델 : 릿지alpha=0.1 훈련 세트 점수: {:.2f}".format(ridge01.score(X_train, y_train)))
+print("2.1 선형모델 : 릿지alpha=0.1 테스트 세트 점수: {:.2f}".format(ridge01.score(X_test, y_test)))
 
 
 # 학습곡선 : 데이터셋의 크기에 따른 모델의 성능 변화

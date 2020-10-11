@@ -32,7 +32,7 @@ for i,(count, name) in enumerate(zip(counts, digits.target_names)):
         print()
 
 #########################################################################
-# 11. 주성분 분석 (principal component analysis)
+# 51. 주성분 분석 (principal component analysis)
 # 처음 두 개의 주성분을 사용한 숫자 데이터셋의 산점도
 from sklearn.decomposition import PCA
 pca = PCA(n_components=2)

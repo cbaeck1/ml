@@ -28,7 +28,7 @@ plt.ylim(0, 60)
 plt.xlabel("특성 CRIM : per capita crime rate by town")
 plt.ylabel("Target : house-price")
 plt.title("boston Scatter Plot")
-images.image.save_fig("boston_Scatter")  
+images.image.save_fig("4.boston_Scatter")  
 plt.show()
 
 # 히스토그램 : 열의 이름은 boston.feature_names
@@ -38,7 +38,7 @@ boston_df = pd.DataFrame(boston.data[:,:nCase], columns=boston.feature_names[:nC
 # 데이터프레임을 사용해  특성별 Historgram
 boston_df.plot.hist(bins=100, alpha=0.5)
 plt.title("boston Histogram Plot")
-images.image.save_fig("boston_Histogram")
+images.image.save_fig("4.boston_Histogram")
 plt.show() 
 
 #  다른방법으로 pairplot
@@ -63,7 +63,7 @@ sns.pairplot(boston,
              diag_kind='kde',
              hue='priceType', 
              palette='bright') # pastel, bright, deep, muted, colorblind, dark
-images.image.save_fig("Boston_Scatter_by_seaborn2")     
+images.image.save_fig("4.Boston_Scatter_by_seaborn2")     
 plt.show()
 
 
@@ -96,7 +96,7 @@ extended_boston_df = pd.DataFrame(X_train[:,:nCase], columns=range(nCase))
 # 데이터프레임을 사용해  특성별 Historgram
 extended_boston_df.plot.hist(alpha=0.5)
 plt.title("extended_boston_df Histogram Plot")
-images.image.save_fig("extended_boston_df_Histogram")
+images.image.save_fig("4.extended_boston_df_Histogram")
 plt.show() 
 
 # 데이터프레임을 사용해 y_train에 따라 색으로 구분된 산점도 행렬을 만듭니다.
@@ -104,7 +104,7 @@ if nCase <= 10:
     pd.plotting.scatter_matrix(extended_boston_df, c=y_train, figsize=(15, 15), marker='o',
     hist_kwds={'bins': 20}, s=2, alpha=.8, cmap=mglearn.cm3)
     plt.title("extended_boston_df Scatter Plot")
-    image.save_fig("extended_boston_df_Scatter")  
+    images.image.save_fig("4.extended_boston_df_Scatter")  
     plt.show()
 
 
@@ -122,7 +122,7 @@ for X, y, title, ax in zip([X, X_train, X_test], [y, y_train, y_test], ['전체'
   ax.set_ylabel("TAX")
 
 axes[0].legend(loc=3)
-images.image.save_fig("boston_scatter_compare")  
+images.image.save_fig("4.boston_scatter_compare")  
 plt.show()
 
 # X_train 데이터를 사용해서 데이터프레임을 만듭니다.
@@ -134,7 +134,7 @@ extended_boston_df = pd.DataFrame(X_train[:,nStart:nStart+nCase], columns=range(
 # 데이터프레임을 사용해  특성별 Historgram
 extended_boston_df.plot.hist(bins=100, alpha=0.5)
 plt.title("extended_boston Histogram Plot")
-images.image.save_fig("extended_boston_Histogram")
+images.image.save_fig("4.extended_boston_Histogram")
 plt.show() 
 
 # 데이터프레임을 사용해 y_train에 따라 색으로 구분된 산점도 행렬을 만듭니다.
@@ -143,6 +143,6 @@ if nCase <= 10:
   pd.plotting.scatter_matrix(extended_boston_df, c=y_bin, figsize=(15, 15), marker='o',
   hist_kwds={'bins': 20}, s=2, alpha=.8, cmap=mglearn.cm3)
   #plt.title("extended_boston Scatter Plot")
-  images.image.save_fig("extended_boston_Scatter")  
+  images.image.save_fig("4.extended_boston_Scatter")  
   plt.show()
 

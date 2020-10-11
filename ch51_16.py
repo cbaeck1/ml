@@ -39,7 +39,7 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X_people,y_people,stratify=y_people, random_state=0)
 
 ########################################################################
-# 11. 주성분 분석 (principal component analysis)
+# 51. 주성분 분석 (principal component analysis)
 # pca 화이트닝 옵션을 적용할 때 데이터 조정
 # 데이터가 회전하는 것뿐만 아니라 스케일도 조정되어 그래프가 원모양
 mglearn.plots.plot_pca_whitening()

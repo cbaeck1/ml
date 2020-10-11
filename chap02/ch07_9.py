@@ -39,13 +39,13 @@ plt.legend(loc="best")
 plt.xlabel("x")
 plt.ylabel("relu(x), tanh(x)")
 plt.title("하이퍼볼릭 탄젠트 활성화 함수와 렐루 활성화 함수")
-image.save_fig("9.7 ReLU_tanh_plot")  
+images.image.save_fig("9.7 ReLU_tanh_plot")  
 plt.show()
 
 # 은닉층으로 구성된 대규모의 신경망이 생기면서 이를 딥러닝
 # 은닉층이 두 개인 다층 퍼셉트론
 thl = mglearn.plots.plot_two_hidden_layer_graph()
-image.save_graph_as_svg(thl, "9.7 two_hidden_layer_plot")  
+images.image.save_graph_as_svg(thl, "9.7 two_hidden_layer_plot")  
 
 #
 from sklearn.model_selection import train_test_split
@@ -59,7 +59,7 @@ mglearn.discrete_scatter(X_train[:, 0], X_train[:, 1], y_train)
 plt.xlabel("특성 0")
 plt.ylabel("특성 1")
 plt.title("은닉 유닛이 100개인 신경망으로 학습시킨 two_moons 데이터셋의 결정 경계")
-image.save_fig("9.7 make_moons_two_moons_hidden100_scatter")  
+images.image.save_fig("9.7 make_moons_two_moons_hidden100_scatter")  
 plt.show()
 
 
@@ -91,7 +91,7 @@ mglearn.discrete_scatter(X_train[:, 0], X_train[:, 1], y_train)
 plt.xlabel("특성 0")
 plt.ylabel("특성 1")
 plt.title("10개의 은닉 유닛을 가진 두 개의 은닉층으로 학습")
-image.save_fig("9.7 make_moons_2hidden10_scatter")  
+images.image.save_fig("9.7 make_moons_2hidden10_scatter")  
 plt.show()
 
 # 3. tanh 함수를 사용하기
@@ -102,7 +102,7 @@ mglearn.discrete_scatter(X[:, 0], X[:, 1], y)
 plt.xlabel("attr 0")
 plt.ylabel("attr 1")
 plt.title("10개의 은닉 유닛을 가진 두 개의 은닉층과 tanh 활성화 함수가 적용")
-image.save_fig("9.7 make_moons_2hidden10_tanh_scatter")  
+images.image.save_fig("9.7 make_moons_2hidden10_tanh_scatter")  
 plt.show()
 
 # 5. alpha값에 따른 변화
@@ -117,7 +117,7 @@ for axx, n_hidden_nodes in zip(axes, [10, 100]):
         mglearn.discrete_scatter(X_train[:, 0], X_train[:, 1], y_train, ax=ax)
         ax.set_title("n_hidden=[{}, {}]\nalpha={:.4f}".format(n_hidden_nodes, n_hidden_nodes, alpha))
 plt.title("은닉 유닛과 alpha 매개변수에 따라 변하는 결정 경계")
-image.save_fig("9.7 make_moons_2hidden_alpha_scatter")  
+images.image.save_fig("9.7 make_moons_2hidden_alpha_scatter")  
 plt.show()
 
 
@@ -129,7 +129,7 @@ for i, ax in enumerate(axes.ravel()):
     mglearn.plots.plot_2d_separator(mlp, X_train, fill=True, alpha=.3, ax=ax)
     mglearn.discrete_scatter(X_train[:, 0], X_train[:, 1], y_train, ax=ax)
 plt.title("무작위로 다른 초깃값을 주되 같은 매개변수로 학습한 결정 경계")
-image.save_fig("9.7 make_moons_random_hidden_scatter")  
+images.image.save_fig("9.7 make_moons_random_hidden_scatter")  
 plt.show()
 
 

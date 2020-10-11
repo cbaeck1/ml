@@ -28,22 +28,88 @@ print(cancer.data[:,:2])
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, 
     stratify=cancer.target, random_state=0)
-print("X_train 크기: {}".format(X_train.shape))
-print("y_train 크기: {}".format(y_train.shape))
-print("X_train 타입: {}".format(type(X_train)))
-print("y_train 타입: {}".format(type(y_train)))
-print("X_test 크기: {}".format(X_test.shape))
-print("y_test 크기: {}".format(y_test.shape))
+print("X_train 크기: {} {}".format(X_train.shape, X_train.dtype))
+print("y_train 크기: {} {}".format(y_train.shape, y_train.dtype))
+print("X_test 크기: {} {}".format(X_test.shape, X_test.dtype))
+print("y_test 크기: {} {}".format(y_test.shape, y_test.dtype))
 
 ########################################################################
 # 6. 커널 서포트 벡터 머신 
-# RBF 커널 SVM을 유방암 데이터셋에 적용해보겠습니다. 기본값 C=1, gamma=1/n_features를 사용
-
+# RBF 커널 SVM을 유방암 데이터셋에 적용해보겠습니다. 기본값 C=1, gamma=1/n_features 를 사용
 from sklearn.svm import SVC
 svc = SVC()
 svc.fit(X_train, y_train)
-print("훈련 세트 정확도: {:.2f}".format(svc.score(X_train, y_train)))
-print("테스트 세트 정확도: {:.2f}".format(svc.score(X_test, y_test)))
+print("훈련/테스트 세트 정확도 {:.5f}/{:.5f}".format(svc.score(X_train, y_train), svc.score(X_test, y_test)))
+
+train_scores = []
+test_scores = []
+CValues = np.logspace(-1, 1, 400)
+print('C:', CValues[0],  CValues[-1])
+
+plt.figure(figsize=(14, 8))
+i = 0
+for C in CValues:
+    svc = SVC(C=C)
+    history = svc.fit(X_train, y_train)
+    train_score = svc.score(X_train, y_train)
+    train_scores.append(train_score)
+    test_score = svc.score(X_test, y_test)
+    test_scores.append(test_score)
+    if i%20 == 0:
+        print("6.선형분류모델 C={:.8f} gamma={:.8f} 인 SVC의 훈련/테스트 정확도: {:.5f}/{:.5f}".
+            format(C, svc._gamma, train_score, test_score))
+    i = i + 1
+
+optimal_C = CValues[np.argmax(test_scores)]
+svc = SVC(C=optimal_C)
+history = svc.fit(X_train, y_train)
+print("6.선형분류모델 : optimal C={:.8f} gamma={:.8f} 인 SVC의 훈련/테스트 정확도: {:.5f}/{:.5f}".
+    format(optimal_C, svc._gamma, svc.score(X_train, y_train), svc.score(X_test, y_test)))
+plt.plot(CValues, train_scores, '-', label="훈련 정확도")
+plt.plot(CValues, test_scores, '--', label="테스트 정확도")
+plt.axvline(optimal_C, linestyle=':')
+plt.xlabel("C")
+plt.ylabel("정확도")
+plt.legend()
+plt.title('유방암 데이터셋에 각기 다른 C 값 gamma={:.8f}을 사용하여 만든 SVC의 훈련/테스트 정확도'.format(svc._gamma))
+images.image.save_fig("6.3.breast_cancer_SVC_C_score")  
+plt.show()
+
+# 
+gammaValues = np.linspace(svc._gamma/10, svc._gamma*1000, 400)
+print('gamma:', gammaValues[0], gammaValues[-1])
+
+train_scores = []
+test_scores = []
+plt.figure(figsize=(14, 8))
+i = 0
+for gamma in gammaValues:
+    svc = SVC(C=optimal_C, gamma=gamma)
+    history = svc.fit(X_train, y_train)
+    train_score = svc.score(X_train, y_train)
+    train_scores.append(train_score)
+    test_score = svc.score(X_test, y_test)
+    test_scores.append(test_score)
+    if i%20 == 0:
+        print("6.선형분류모델 C={:.8f} gamma={:.8f} 인 SVC의 훈련/테스트 정확도: {:.5f}/{:.5f}".
+            format(optimal_C, gamma, train_score, test_score))
+    i = i + 1
+
+optimal_gamma = gammaValues[np.argmax(test_scores)]
+svc = SVC(C=optimal_C, gamma=optimal_gamma)
+history = svc.fit(X_train, y_train)
+print("6.선형분류모델 : optimal C={:.8f} gamma={:.8f} 인 SVC의 훈련/테스트 정확도: {:.5f}/{:.5f}".
+    format(optimal_C, optimal_gamma, svc.score(X_train, y_train), svc.score(X_test, y_test)))
+plt.plot(gammaValues, train_scores, '-', label="훈련 정확도")
+plt.plot(gammaValues, test_scores, '--', label="테스트 정확도")
+plt.axvline(optimal_gamma, linestyle=':')
+plt.xlabel("gamma")
+plt.ylabel("정확도")
+plt.legend()
+plt.title('유방암 데이터셋에 각기 C={:.8f} 값 다른 gamma 을 사용하여 만든 SVC의 훈련/테스트 정확도'.format(optimal_C))
+images.image.save_fig("6.3.breast_cancer_SVC_gamma_score")  
+plt.show()
+
 
 # 과대 적합됬음을 알 수 있다.
 # SVM은 매개변수와 데이터 스케일에 매우 민감하다
@@ -54,7 +120,7 @@ plt.yscale("symlog")
 plt.xlabel("특성 목록")
 plt.ylabel("특성 크기")
 plt.title('유방암 데이터셋의 특성 값 범위(y 축은 로그 스케일)')
-images.image.save_fig("3.cancer_rbf_Scatter")  
+images.image.save_fig("6.3.breast_cancer_rbf_Scatter")  
 plt.show()
 
 # SVM을 위한 데이터 전처리
@@ -77,15 +143,75 @@ X_test_scaled = (X_test - min_on_training) / range_on_training
 #  
 svc_scaled = SVC()
 svc_scaled.fit(X_train_scaled, y_train)
-print("훈련 세트 정확도: {:.3f}".format(svc_scaled.score(X_train_scaled, y_train)))
-print("테스트 세트 정확도: {:.3f}".format(svc_scaled.score(X_test_scaled, y_test)))
+print("훈련/테스트 세트 정확도 {:.5f}/{:.5f}".format(svc_scaled.score(X_train_scaled, y_train), svc_scaled.score(X_test_scaled, y_test)))
 
-# C 값 증가 -> 모델 성능 향상
-svc_scaled_1000 = SVC(C=1000)
-svc_scaled_1000.fit(X_train_scaled, y_train)
-print("훈련 세트 정확도: {:.3f}".format(svc_scaled_1000.score(X_train_scaled, y_train)))
-print("테스트 세트 정확도: {:.3f}".format(svc_scaled_1000.score(X_test_scaled, y_test)))
+train_scaled_scores = []
+test_scaled_scores = []
+CValues = np.logspace(-1, 1, 400)
+print('C:', CValues[0],  CValues[-1])
 
+plt.figure(figsize=(14, 8))
+i = 0
+for C in CValues:
+    svc_scaled = SVC(C=C)
+    history = svc_scaled.fit(X_train_scaled, y_train)
+    train_scaled_score = svc_scaled.score(X_train_scaled, y_train)
+    train_scaled_scores.append(train_scaled_score)
+    test_scaled_score = svc_scaled.score(X_test_scaled, y_test)
+    test_scaled_scores.append(test_scaled_score)
+    if i%20 == 0:
+        print("6.선형분류모델 : C={:.8f} gamma={:.8f}인 SVC의 훈련/테스트 정확도: {:.5f}/{:.5f}".
+            format(C, svc_scaled._gamma, train_scaled_score, test_scaled_score))
+    i = i + 1
+
+optimal_C = CValues[np.argmax(test_scaled_scores)]
+svc_scaled = SVC(C=optimal_C)
+history = svc_scaled.fit(X_train_scaled, y_train)
+print("6.선형분류모델 : optimal C={:.8f} gamma={:.8f}인 SVC의 훈련/테스트 정확도: {:.5f}/{:.5f}".
+    format(optimal_C, svc_scaled._gamma, svc_scaled.score(X_train_scaled, y_train), svc_scaled.score(X_test_scaled, y_test)))
+plt.plot(CValues, train_scaled_scores, '-', label="훈련 정확도")
+plt.plot(CValues, test_scaled_scores, '--', label="테스트 정확도")
+plt.axvline(optimal_C, linestyle=':')
+plt.xlabel("C")
+plt.ylabel("정확도")
+plt.legend()
+plt.title('유방암 데이터셋(최댓값 - 최솟값)에 각기 다른 C 값을 사용하여 만든 SVC의 훈련/테스트 정확도')
+images.image.save_fig("6.3.breast_cancer_scaled_SVC_C_score")  
+plt.show()
+
+gammaValues = np.linspace(svc_scaled._gamma/1000, svc_scaled._gamma*10, 400)
+print('gamma:', gammaValues[0], gammaValues[-1])
+
+train_scaled_scores = []
+test_scaled_scores = []
+plt.figure(figsize=(14, 8))
+i = 0
+for gamma in gammaValues:
+    svc_scaled = SVC(C=optimal_C, gamma=gamma)
+    history = svc_scaled.fit(X_train_scaled, y_train)
+    train_scaled_score = svc_scaled.score(X_train_scaled, y_train)
+    train_scaled_scores.append(train_scaled_score)
+    test_scaled_score = svc_scaled.score(X_test_scaled, y_test)
+    test_scaled_scores.append(test_scaled_score)
+    if i%20 == 0:
+        print("6.선형분류모델 C={:.8f} gamma={:.8f} 인 SVC의 훈련/테스트 정확도: {:.5f}/{:.5f}".
+            format(optimal_C, gamma, train_scaled_score, test_scaled_score))
+    i = i + 1
+
+optimal_gamma = gammaValues[np.argmax(test_scaled_scores)]
+svc_scaled = SVC(C=optimal_C, gamma=optimal_gamma)
+history = svc_scaled.fit(X_train_scaled, y_train)
+print("6.선형분류모델 : optimal C={:.8f} gamma={:.8f} 인 SVC의 훈련/테스트 정확도: {:.5f}/{:.5f}".
+    format(optimal_C, optimal_gamma, svc_scaled.score(X_train_scaled, y_train), svc_scaled.score(X_test_scaled, y_test)))
+plt.plot(gammaValues, train_scaled_scores, '-', label="훈련 정확도")
+plt.plot(gammaValues, test_scaled_scores, '--', label="테스트 정확도")
+plt.axvline(optimal_gamma, linestyle=':')
+plt.xlabel("gamma")
+plt.ylabel("정확도")
+plt.legend()
+plt.title('유방암 데이터셋에 각기 C={:.8f} 값 다른 gamma 을 사용하여 만든 SVC의 훈련/테스트 정확도'.format(optimal_C))
+images.image.save_fig("6.3.breast_cancer_scaled_SVC_gamma_score")  
+plt.show()
 
 # < 장단점 >
 # 데이터의 특성이 몇개 안되더라도 복잡한 결정 경계를 만들 수 있다.

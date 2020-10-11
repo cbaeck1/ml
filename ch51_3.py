@@ -23,18 +23,19 @@ print(cancer.data, cancer.target)
 print(cancer.data[:,:2])
 
 ################################################################################
-# 11. 주성분 분석(PCA) - 유방암 데이터셋 시각화 하기 
+# 51. 주성분 분석(PCA) - 유방암 데이터셋 시각화 하기 
 # 주성분 분석은 특성들이 통계적으로 상관관계가 없도록 데이터셋을 회전시키는 기술이다.
 # 회전한 뒤에 데이터를 설명하는데 얼마나 중요하냐에 따라 특성 일부만 선택된다.
 # 인위적으로 만든 2차원 데이터셋을 사용하여 PCA효과를 나타낸 그래프
 mglearn.plots.plot_pca_illustration()
-images.image.save_fig("3.11.breast_cancer_Scatter")  
+images.image.save_fig("51.3.breast_cancer_Scatter")  
 plt.show()
 
 # 1. PCA 알고리즘은 성분1이라고 쓰여있는 분산이 가장 큰 방향을 찾는다.
-#   이 방향(벡터)는 이 성분1에대한 가장 많은 정보를 담고 있는 방향이다.
+#   이 방향(벡터)는 이 성분1에 대한 가장 많은 정보를 담고 있는 방향이다.
 # 2. 그 다음 첫번째 방향과 직각인 방향중에 가장 많은 정보를 담은 방향을 찾는다. (component 2)
-#   이런 과정을 거쳐 찾은 방향을 데이터에 있는 주된 분산의 방향이라고 하여 주성분(principal component) 이라고 한다. 일반적으로 원본 특성의 개수 만큼 있다.
+#   이런 과정을 거쳐 찾은 방향을 데이터에 있는 주된 분산의 방향이라고 하여 주성분(principal component) 이라고 한다. 
+#   일반적으로 원본 특성의 개수 만큼 있다.
 # 이 변환은 데이터에서 노이즈를 제거하거나 주성분에서 유지되는 정보를 시각화하는데 종종 사용
 
 # 그림1: 원본 데이터 포인트를 색으로 구분
@@ -60,10 +61,11 @@ ax[0].set_xlabel("attr size")
 ax[0].set_ylabel("frequency")
 ax[0].legend(["neg","pos"],loc="best")
 fig.tight_layout()
-images.image.save_fig("3.11.breast_cancer_histogram")  
+images.image.save_fig("51.3.breast_cancer_histogram")  
 plt.show()
-# 예) worst concave points 특성은 두 히스토그램이 확실히 구분되어 매우 유용한 특성이지만 특성간의 상호작용에 대해선 전혀 알려주지 못한다
 '''
+# 예) worst concave points 특성은 두 히스토그램이 확실히 구분되어 매우 유용한 특성이지만 특성간의 상호작용에 대해선 전혀 알려주지 못한다
+
 
 # 훈련 세트, 테스트 세트
 from sklearn.model_selection import train_test_split
@@ -74,11 +76,13 @@ print("y_train 크기: {}".format(y_train.shape))
 print("X_test 크기: {}".format(X_test.shape))
 print("y_test 크기: {}".format(y_test.shape))
 
-
 # 처음 두개의 주성분을 사용해 그린 유방암 데이터셋의 2차원 산점도
 # pca 적용 전에 StandardScaler 를 사용해 데이터 스케일 조정 : 각 특성의 분산이 1이 되도록 스케일 조정
 from sklearn.preprocessing import StandardScaler
 standard_scaler = StandardScaler()
+standard_scaler.fit(cancer.data)
+X_scaled = standard_scaler.transform(cancer.data)
+
 #standard_scaler.fit(X_train)
 #X_train_scaled_standard = standard_scaler.transform(X_train)
 #X_test_scaled_standard = standard_scaler.transform(X_test)
@@ -99,6 +103,16 @@ from sklearn.decomposition import PCA
 # LinAlgError: SVD did not converge
 # 처리1 : dataFrame : X_train_scaled_standard.dropna(inplace=True)
 #         numpy : X[~np.isnan(X).any(axis=1)]
+# 데이터 첫 2개의 성분만 유지한다.
+pca = PCA(n_components=2)
+# PCA 모델 만들기
+pca.fit(X_scaled)
+# 처음 두개의 주성분을 사용해 데이터 변환
+X_pca = pca.transform(X_scaled)
+print("원본 데이터 형태 : {}".format(str(X_scaled.shape)))
+print("축소된 데이터 형태 : {}".format(str(X_pca.shape)))
+
+
 print(X_train_scaled_standard.shape)
 print(X_train_scaled_standard)
 X_train_scaled_standard = X_train_scaled_standard[~np.isnan(X_train_scaled_standard)]

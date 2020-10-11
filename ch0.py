@@ -1,10 +1,5 @@
 import pandas as pd
 import numpy as np
-import mglearn, os
-
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import image
 
 # 1. 붓꽃iris 데이터셋
 # 2. 두 개의 특성을 가진 forge 데이터셋은 인위적으로 만든 이진 분류 데이터셋
@@ -24,6 +19,8 @@ import image
 # 16. 고유얼굴(eigenface) people
 # 17. 3가지 합성된 신호 데이터셋
 # 18. 숫자 데이터셋의 샘플 이미지 digits 
+# 19. 클리블랜드(Cleveland) 심장병 재단에서 제공한 작은 데이터셋
+# 20. life
 
 # 1. 히스토그램
 # 2. 산점도
@@ -57,7 +54,7 @@ import image
 #    특별히 대용량 데이터셋에서 매우 복잡한 모델을 만들 수 있음. 
 #    매개변수 선택과 데이터 스케일에 민감. 큰 모델은 학습이 오래 걸림.
 
-# II. 데이터 전처리
+# II. 데이터 전처리 & 비지도학습
 # 1. 스케일을 조정
 #  1.1. StandardScaler 는 각 특성의 평균을 0 분산을 1로 변경하여 모든 특성이 같은 크기를 가지게 한다.
 #  1.2. RobustScaler 는 특성들이 같은 스케일을 같게 된다는 통계적 측면에서는 비슷하지만, 중간값과 사분위값을 사용한다.
@@ -68,26 +65,26 @@ import image
 #    이러한 정규하는 득성 벡터의 길이는 상관 없고 데이터의 방향이 중요할 때 많이 사용한다.
 # 2. 범주형 변수
 # 
+#
 
-# III. 비지도학습
-# 1. 비지도 변환 (unsupervised transformation)
-# 1.1. 차원축소 : 시각화를 위해 데이터셋을 2차원으로 변경
+# 5. 비지도 변환 (unsupervised transformation)
+# 5.1. 차원축소 : 시각화를 위해 데이터셋을 2차원으로 변경
 #    데이터를 새롭게 표현하여 사람이나 다른 머신러닝 알고리즘이 원래 데이터보다 쉽게 해석할 수 있도록 만드는 알고리즘.
-#  1.1.1. 주성분 분석 (principal component analysis): 가장 간단하고 널리 사용하는 알고리즘
-#  1.1.2. 비음수 행렬 분해 (non-negative matriz factorization): 특성 추출에 널리 사용
-#  1.1.3. t-SNE 알고리즘 (t-distributed stochastic neighbor embedding): 2차원 산점도를 이용해 시각화 용도로 많이 사용
-# 2. 군집 (clustering) : 데이터를 비슷한 것끼리 그룹으로 묶는 것
-#  2.1. k-평균 군집
+#  5.1. 주성분 분석 (principal component analysis): 가장 간단하고 널리 사용하는 알고리즘
+#  5.2. 비음수 행렬 분해 (non-negative matriz factorization): 특성 추출에 널리 사용
+#  5.3. t-SNE 알고리즘 (t-distributed stochastic neighbor embedding): 2차원 산점도를 이용해 시각화 용도로 많이 사용
+# 5.2. 군집 (clustering) : 데이터를 비슷한 것끼리 그룹으로 묶는 것
+#  5.3. k-평균 군집
 #    k-평균은 비교적 이해하기 쉽고 구현도 쉬울 뿐만 아니라 비교적 빠르기 때문에 가장 인기있는 군집 알고리즘이다.
 #    k-평균은 대용량 데이터셋에도 잘 작동하지만, MinBatchKMeans도 제공한다.
 #    무작위 초기화를 사용하여 알구리즘의 출력이 난수 초깃값에 따라 달라진다.
 #    클러스터의 모양을 가정하고 있어서 활용범위가 비교적 제한적이다.
-#  2.2. 병합 군집 ( agglomerative clustering )
+#  5.4. 병합 군집 ( agglomerative clustering )
 #    k-평균 군집 알고리즘의 단점을 개선
-#  2.3. DBSCAN 
+#  5.5. DBSCAN 
 #    k-평균 군집 알고리즘의 단점을 개선
  
-# IV. 모델평가
+# III.  모델평가
 # 
 
 

@@ -13,7 +13,7 @@ import images.image
 # x축은 10~15의 값을 가지고  y축은 1~9의 값을 가진다.
 # 오른쪽의 4가지 그림은 데이터를 기준이 되는 범위로 변환하는 네가지 방법이다
 mglearn.plots.plot_scaling()
-images.image.save_fig("21.scale_plot")     
+images.image.save_fig("10.scale_plot")     
 plt.show()
 
 # 1. StandardScaler 는 각 특성의 평균을 0 분산을 1로 변경하여 모든 특성이 같은 크기를 가지게 한다.

@@ -28,12 +28,10 @@ print(cancer.data[:,:2])
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, 
       stratify=cancer.target, random_state=0)
-print("X_train 크기: {}".format(X_train.shape))
-print("y_train 크기: {}".format(y_train.shape))
-print("X_train 타입: {}".format(type(X_train)))
-print("y_train 타입: {}".format(type(y_train)))
-print("X_test 크기: {}".format(X_test.shape))
-print("y_test 크기: {}".format(y_test.shape))
+print("X_train 크기: {} {}".format(X_train.shape, X_train.dtype))
+print("y_train 크기: {} {}".format(y_train.shape, y_train.dtype))
+print("X_test 크기: {} {}".format(X_test.shape, X_test.dtype))
+print("y_test 크기: {} {}".format(y_test.shape, y_test.dtype))
 
 ########################################################################
 # 5. 결정트리 앙상블 : 랜덤 포레스트

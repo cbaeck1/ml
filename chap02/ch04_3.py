@@ -28,12 +28,10 @@ print(cancer.data[:,:2])
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(
    cancer.data, cancer.target, stratify=cancer.target, random_state=66)
-print("X_train 크기: {}".format(X_train.shape))
-print("y_train 크기: {}".format(y_train.shape))
-print("X_train 타입: {}".format(type(X_train)))
-print("y_train 타입: {}".format(type(y_train)))
-print("X_test 크기: {}".format(X_test.shape))
-print("y_test 크기: {}".format(y_test.shape))
+print("X_train 크기: {} {}".format(X_train.shape, X_train.dtype))
+print("y_train 크기: {} {}".format(y_train.shape, y_train.dtype))
+print("X_test 크기: {} {}".format(X_test.shape, X_test.dtype))
+print("y_test 크기: {} {}".format(y_test.shape, y_test.dtype))
 
 ########################################################################
 # 4. 결정트리
@@ -47,10 +45,10 @@ print("테스트 세트 완전한 트리 정확도: {:.3f}".format(tree0.score(X
 
 # export_graphviz 함수를 이용해 트리를 시각화
 from sklearn.tree import export_graphviz
-export_graphviz(tree0, out_file="./images/svg/3.breast_cancer_tree.dot", class_names=["악성", "양성"],
+export_graphviz(tree0, out_file="images/svg/3.breast_cancer_tree.dot", class_names=["악성", "양성"],
                 feature_names=cancer.feature_names,
                 impurity=False, filled=True)
-with open("./images/svg/3.breast_cancer_tree.dot", encoding='utf8') as f:
+with open("images/svg/3.breast_cancer_tree.dot", encoding='utf8') as f:
     dot_graph = f.read()
 
 # display(graphviz.Source(dot_graph))
@@ -72,10 +70,10 @@ tree4.fit(X_train, y_train)
 print("훈련 세트 max_depth=4 정확도: {:.3f}".format(tree4.score(X_train, y_train)))
 print("테스트 세트 max_depth=4 정확도: {:.3f}".format(tree4.score(X_test, y_test)))
 
-export_graphviz(tree4, out_file="./images/svg/3.breast_cancer_tree_depth4.dot", class_names=["악성", "양성"],
+export_graphviz(tree4, out_file="images/svg/3.breast_cancer_tree_depth4.dot", class_names=["악성", "양성"],
                 feature_names=cancer.feature_names,
                 impurity=False, filled=True)
-with open("./images/svg/3.breast_cancer_tree_depth4.dot", encoding='utf8') as f:
+with open("images/svg/3.breast_cancer_tree_depth4.dot", encoding='utf8') as f:
     dot_graph = f.read()
 
 # 유방암 데이터셋으로 만든 결정 트리

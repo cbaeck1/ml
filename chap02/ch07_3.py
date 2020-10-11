@@ -30,12 +30,10 @@ print("유방암 데이터의 특성별 최댓값:\n{}".format(cancer.data.max(a
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, 
       stratify=cancer.target, random_state=0)
-print("X_train 크기: {}".format(X_train.shape))
-print("y_train 크기: {}".format(y_train.shape))
-print("X_train 타입: {}".format(type(X_train)))
-print("y_train 타입: {}".format(type(y_train)))
-print("X_test 크기: {}".format(X_test.shape))
-print("y_test 크기: {}".format(y_test.shape))
+print("X_train 크기: {} {}".format(X_train.shape, X_train.dtype))
+print("y_train 크기: {} {}".format(y_train.shape, y_train.dtype))
+print("X_test 크기: {} {}".format(X_test.shape, X_test.dtype))
+print("y_test 크기: {} {}".format(y_test.shape, y_test.dtype))
 
 ########################################################################
 # 7. 딥러닝
@@ -79,7 +77,7 @@ plt.xlabel("은닉 유닛")
 plt.ylabel("입력 특성")
 plt.colorbar()
 plt.title('유방암 데이터셋으로 학습시킨 신경망의 첫 번째 층의 가중치 히트맵')
-image.save_fig("3.cancer_heat_map_Scatter")  
+images.image.save_fig("3.cancer_heat_map_Scatter")  
 plt.show()
 
 # 장단점

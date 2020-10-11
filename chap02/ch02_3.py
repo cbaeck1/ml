@@ -27,34 +27,24 @@ print(cancer.data[:,:2])
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(
    cancer.data, cancer.target, stratify=cancer.target, random_state=42)
-
-print("X_train 크기: {}".format(X_train.shape))
-print("y_train 크기: {}".format(y_train.shape))
-print("X_test 크기: {}".format(X_test.shape))
-print("y_test 크기: {}".format(y_test.shape))
+print("X_train 크기: {} {}".format(X_train.shape, X_train.dtype))
+print("y_train 크기: {} {}".format(y_train.shape, y_train.dtype))
+print("X_test 크기: {} {}".format(X_test.shape, X_test.dtype))
+print("y_test 크기: {} {}".format(y_test.shape, y_test.dtype))
 
 ########################################################################
 # 2. 선형분류모델 : 로지스틱, 서포트 벡터 머신 
 # C=100 을 사용하니 훈련 세트의 정확도가 높아졌고 테스트 세트의 정확도도 조금 증가
 # 복잡도가 높은 모델일수록 성능이 좋음
 from sklearn.linear_model import LogisticRegression
-logreg = LogisticRegression().fit(X_train, y_train)
-print("2. 선형모델 : 로지스틱 훈련 세트 점수: {:.3f}".format(logreg.score(X_train, y_train)))
-print("2. 선형모델 : 로지스틱 테스트 세트 점수: {:.3f}".format(logreg.score(X_test, y_test)))
 
-logreg100 = LogisticRegression(C=100).fit(X_train, y_train)
-print("2. 선형모델 : 로지스틱 C=100 훈련 세트 점수: {:.3f}".format(logreg100.score(X_train, y_train)))
-print("2. 선형모델 : 로지스틱 C=100 테스트 세트 점수: {:.3f}".format(logreg100.score(X_test, y_test)))
-
-logreg001 = LogisticRegression(C=0.01).fit(X_train, y_train)
-print("2. 선형모델 : 로지스틱 C=0.01 훈련 세트 점수: {:.3f}".format(logreg001.score(X_train, y_train)))
-print("2. 선형모델 : 로지스틱 C=0.01 테스트 세트 점수: {:.3f}".format(logreg001.score(X_test, y_test)))
-
-# 
 plt.figure(figsize=(14, 8))
-plt.plot(logreg.coef_.T, 'o', label="C=1")
-plt.plot(logreg100.coef_.T, '^', label="C=100")
-plt.plot(logreg001.coef_.T, 'v', label="C=0.001")
+for C, marker in zip([0.001, 0.01, 0.1, 1, 10, 100], ['.', 'o', '*', '^', 'x', 'v']):
+    logreg = LogisticRegression(C=C).fit(X_train, y_train)
+    print("2.선형모델 : C={:.3f} 인 로지스틱 회귀의 훈련/테스트 정확도: {:.3f}/{:.3f}".
+        format(C, logreg.score(X_train, y_train), logreg.score(X_test, y_test)))
+    plt.plot(logreg.coef_.T, marker, label="C={:.3f}".format(C))
+
 plt.xticks(range(cancer.data.shape[1]), cancer.feature_names, rotation=90)
 plt.hlines(0, 0, cancer.data.shape[1])
 plt.ylim(-2, 2)
@@ -62,7 +52,7 @@ plt.xlabel("특성")
 plt.ylabel("계수 크기")
 plt.legend()
 plt.title('유방암 데이터셋에 각기 다른 C 값을 사용하여 만든 로지스틱 회귀의 계수')
-images.image.save_fig("3.cancer_logistic_C")  
+images.image.save_fig("2.3.breast_cancer_logistic_C")  
 plt.show()
 
 # LogisticRegression은 기본으로 L2 규제를 적용 : Ridge로 만든 모습과 비슷
@@ -73,12 +63,15 @@ plt.show()
 # L2 규제(몇 개의 특성만 사용)를 사용할 때의 분류 정확도와 계수 그래프 
 # Solver lbfgs supports only 'l2' or 'none' penalties, got l1 penalty.
 plt.figure(figsize=(14, 8))
-for C, marker in zip([0.001, 1, 100], ['o', '^', 'v']):
+for C, marker in zip([0.001, 0.01, 0.1, 1, 10, 100], ['.', 'o', '*', '^', 'x', 'v']):
     lr_l2 = LogisticRegression(C=C, penalty="l2").fit(X_train, y_train)
-    # lr_l1 = LogisticRegression(C=C, penalty="none").fit(X_train, y_train)
-    print("C={:.3f} 인 L2 로지스틱 회귀의 훈련 정확도: {:.3f}".format(C, lr_l2.score(X_train, y_train)))
-    print("C={:.3f} 인 L2 로지스틱 회귀의 테스트 정확도: {:.3f}".format(C, lr_l2.score(X_test, y_test)))
+    lr_none = LogisticRegression(C=C, penalty="none").fit(X_train, y_train)
+    print("C={:.3f} 인 L2 로지스틱 회귀의 훈련/테스트 정확도: {:.3f}/{:.3f}".
+        format(C, lr_l2.score(X_train, y_train), lr_l2.score(X_test, y_test)))
+    print("C={:.3f} 인 penalty=none 로지스틱 회귀의 훈련/테스트 정확도: {:.3f}/{:.3f}".
+        format(C, lr_none.score(X_train, y_train), lr_none.score(X_test, y_test)))
     plt.plot(lr_l2.coef_.T, marker, label="C={:.3f}".format(C))
+    plt.plot(lr_none.coef_.T, marker, label="C={:.3f}".format(C))
 
 plt.xticks(range(cancer.data.shape[1]), cancer.feature_names, rotation=90)
 plt.hlines(0, 0, cancer.data.shape[1])
@@ -86,8 +79,8 @@ plt.xlabel("특성")
 plt.ylabel("계수 크기")
 plt.ylim(-2, 2)
 plt.legend(loc=3)
-plt.title('유방암 데이터와 L2 규제를 사용하여 각기 다른 C 값을 적용한 로지스틱 회귀 모델의 계수')
-images.image.save_fig("2.3.cancer_logistic_C_L2")  
+plt.title('유방암 데이터와 L2,none 규제를 사용하여 각기 다른 C 값을 적용한 로지스틱 회귀 모델의 계수')
+images.image.save_fig("2.3.breast_cancer_logistic_C_L2_NONE")  
 plt.show()
 
 # 모델들의 주요 차이는 규제에서 모든 특성을 이용할지 일부 특성만을 사용할지 결정하는 

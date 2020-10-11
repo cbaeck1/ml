@@ -49,10 +49,10 @@ print("변환된 후 크기: {}".format(X_train_scaled.shape))
 # 데이터 스케일을 변환해도 개수에는 변화 없다. 
 print("스케일 조정 전 특성별 최소값: {}".format(X_train.min(axis=0)))
 print("스케일 조정 전 특성별 최대값: {}".format(X_train.max(axis=0)))
-print("스케일 조정 후 특성별 최소값: {}".format(X_train_scaled.min(axis=0)))
-print("스케일 조정 후 특성별 최소값: {}".format(X_train_scaled.max(axis=0)))
-print("스케일 조정 후 특성별 최소값: \n{}".format(X_test_scaled.min(axis=0)))
-print("스케일 조정 후 특성별 최소값: \n{}".format(X_test_scaled.max(axis=0)))
+print("스케일 조정 후 X_train 특성별 최소값: {}".format(X_train_scaled.min(axis=0)))
+print("스케일 조정 후 X_train 특성별 최대값: {}".format(X_train_scaled.max(axis=0)))
+print("스케일 조정 후 X_test 특성별 최소값: \n{}".format(X_test_scaled.min(axis=0)))
+print("스케일 조정 후 X_test 특성별 최대값: \n{}".format(X_test_scaled.max(axis=0)))
 
 # 1. StandardScaler 를 사용
 from sklearn.preprocessing import StandardScaler

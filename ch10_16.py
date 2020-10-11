@@ -37,6 +37,8 @@ X_people = X_people/255.
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X_people,y_people,stratify=y_people, random_state=0)
 
+#################################################################################
+# 
 # NMF를 사용해 데이터를 재구성
 mglearn.plots.plot_nmf_faces(X_train, X_test, image_shape)
 plt.title("NMF를 사용해 데이터를 재구성")
