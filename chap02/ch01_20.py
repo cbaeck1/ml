@@ -11,7 +11,7 @@ import images.image
 # 20. life
 
 # 1.1 판다스로 데이터프레임 만들기
-dataframe = pd.read_csv('e:/data/trans서울중구.csv')
+dataframe = pd.read_csv('data/trains서울중구.csv')
 print(dataframe.head(), dataframe.shape)
 
 # Categorical
@@ -33,10 +33,10 @@ print(Y_life.head(), Y_life.shape)
 # 1.2 데이터프레임을 훈련 세트, 검증 세트, 테스트 세트로 나누기
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X_life, Y_life, stratify=Y_life, random_state=66)
-print("X_train 크기: {}{}".format(X_train.shape, X_train.dtype))
-print("y_train 크기: {}{}".format(y_train.shape, y_train.dtype))
-print("X_test 크기: {}{}".format(X_test.shape, X_test.dtype))
-print("y_test 크기: {}{}".format(y_test.shape, y_test.dtype))
+print("X_train 크기: {} {} {}".format(X_train.shape, type(X_train), X_train.dtype))
+print("y_train 크기: {} {} {}".format(y_train.shape, type(X_train), X_train.dtype))
+print("X_test 크기: {} {} {}".format(X_test.shape, type(X_train), X_train.dtype))
+print("y_test 크기: {} {} {}".format(y_test.shape, type(X_train), X_train.dtype))
 
 ########################################################################
 # 1. k-최근접 이웃 알고리즘 : 분류 

@@ -32,10 +32,10 @@ print(X, y)
 # 훈련 세트, 테스트 세트 random_state=0
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
-print("X_train 크기: {} {}".format(X_train.shape, X_train.dtype))
-print("y_train 크기: {} {}".format(y_train.shape, y_train.dtype))
-print("X_test 크기: {} {}".format(X_test.shape, X_test.dtype))
-print("y_test 크기: {} {}".format(y_test.shape, y_test.dtype))
+print("X_train 크기: {} {} {}".format(X_train.shape, type(X_train), X_train.dtype))
+print("y_train 크기: {} {} {}".format(y_train.shape, type(X_train), X_train.dtype))
+print("X_test 크기: {} {} {}".format(X_test.shape, type(X_train), X_train.dtype))
+print("y_test 크기: {} {} {}".format(y_test.shape, type(X_train), X_train.dtype))
 print(X_train[:, 0], X_train[:, 1], y_train)
 
 ########################################################################
@@ -77,7 +77,9 @@ elasticNet_test_score = []
 elasticNet_coef = []
 elasticNet_coef_cnt = []
 
-for i, alpha, marker in zip(np.arange(6), [0.001, 0.01, 0.1, 1, 10, 100], ['.', 'o', '*', '^', 'x', 'v']):
+alphaList = [0.001, 0.01, 0.1, 1, 10, 100]
+markerList =  ['.', 'o', '*', '^', 'x', 'v']
+for i, alpha, marker in zip(np.arange(len(alphaList)), alphaList, markerList):
     ridge = Ridge(alpha=alpha, max_iter=max_iter).fit(X_train, y_train)  # default = 1
     lasso = Lasso(alpha=alpha, max_iter=max_iter).fit(X_train, y_train) # default = 1
     # default alpha:float=1.0  l1_ratio:float=0.5 max_iter:int=1000
@@ -102,7 +104,7 @@ for i, alpha, marker in zip(np.arange(6), [0.001, 0.01, 0.1, 1, 10, 100], ['.', 
         format('ElasticNet', alpha, elasticNet_train_score[i], elasticNet_test_score[i], elasticNet_coef_cnt[i]))
 
 plt.figure(figsize=(14, 8))
-for i, alpha, marker in zip(np.arange(6), [0.001, 0.01, 0.1, 1, 10, 100], ['.', 'o', '*', '^', 'x', 'v']):
+for i, alpha, marker in zip(np.arange(len(alphaList)), alphaList, markerList):
     plt.plot(ridge_coef[i].T, marker, label="Ridge alpha={:.3f}".format(alpha))
     plt.plot(lasso_coef[i].T, marker, label="Lasso alpha={:.3f}".format(alpha))
     plt.plot(elasticNet_coef[i].T, marker, label="ElasticNet alpha={:.3f}".format(alpha))
@@ -119,7 +121,7 @@ plt.show()
 
 
 plt.figure(figsize=(14, 8))
-for i, alpha, marker in zip(np.arange(6), [0.001, 0.01, 0.1, 1, 10, 100], ['.', 'o', '*', '^', 'x', 'v']):
+for i, alpha, marker in zip(np.arange(len(alphaList)), alphaList, markerList):
     plt.plot(ridge_coef[i].T, marker, label="Ridge alpha={:.3f}".format(alpha))
 
 plt.plot(lr.coef_, 's', label="LinearRegression")
@@ -134,7 +136,7 @@ plt.show()
 
 
 plt.figure(figsize=(14, 8))
-for i, alpha, marker in zip(np.arange(6), [0.001, 0.01, 0.1, 1, 10, 100], ['.', 'o', '*', '^', 'x', 'v']):
+for i, alpha, marker in zip(np.arange(len(alphaList)), alphaList, markerList):
     plt.plot(lasso_coef[i].T, marker, label="Lasso alpha={:.3f}".format(alpha))
 
 plt.plot(lr.coef_, 's', label="LinearRegression")
@@ -149,7 +151,7 @@ plt.show()
 
 
 plt.figure(figsize=(14, 8))
-for i, alpha, marker in zip(np.arange(6), [0.001, 0.01, 0.1, 1, 10, 100], ['.', 'o', '*', '^', 'x', 'v']):
+for i, alpha, marker in zip(np.arange(len(alphaList)), alphaList, markerList):
     plt.plot(elasticNet_coef[i].T, marker, label="ElasticNet alpha={:.3f}".format(alpha))
 
 plt.plot(lr.coef_, 's', label="LinearRegression")

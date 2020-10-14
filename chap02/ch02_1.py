@@ -8,7 +8,6 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import images.image
 
-
 from sklearn.datasets import load_iris
 iris_dataset = load_iris()
 
@@ -32,11 +31,10 @@ print("타깃:\n{}".format(iris_dataset['target']))
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(
     iris_dataset['data'], iris_dataset['target'], random_state=0)
-print("X_train 크기: {}".format(X_train.shape))
-print("y_train 크기: {}".format(y_train.shape))
-print("X_train 타입: {}".format(type(X_train)))
-print("X_test 크기: {}".format(X_test.shape))
-print("y_test 크기: {}".format(y_test.shape))
+print("X_train 크기: {} {} {}".format(X_train.shape, type(X_train), X_train.dtype))
+print("y_train 크기: {} {} {}".format(y_train.shape, type(X_train), X_train.dtype))
+print("X_test 크기: {} {} {}".format(X_test.shape, type(X_train), X_train.dtype))
+print("y_test 크기: {} {} {}".format(y_test.shape, type(X_train), X_train.dtype))
 
 ########################################################################
 # 2. 선형분류모델 : 로지스틱 

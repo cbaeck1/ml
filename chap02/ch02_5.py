@@ -21,10 +21,10 @@ print(X[:5], y[:5])
 # 선형모델 : 최소제곱, 릿지, 라쏘
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
-print("X_train 크기: {}".format(X_train.shape))
-print("y_train 크기: {}".format(y_train.shape))
-print("X_test 크기: {}".format(X_test.shape))
-print("y_test 크기: {}".format(y_test.shape))
+print("X_train 크기: {} {} {}".format(X_train.shape, type(X_train), X_train.dtype))
+print("y_train 크기: {} {} {}".format(y_train.shape, type(X_train), X_train.dtype))
+print("X_test 크기: {} {} {}".format(X_test.shape, type(X_train), X_train.dtype))
+print("y_test 크기: {} {} {}".format(y_test.shape, type(X_train), X_train.dtype))
 
 ########################################################################
 # 2. 선형모델 : 최소제곱

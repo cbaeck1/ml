@@ -11,10 +11,10 @@ import images.image
 # 9. 두 개의 클래스를 가진 2차원 데이터셋 make_moons
 from sklearn.datasets import make_moons
 X, y = make_moons(n_samples=100, noise=0.25, random_state=3)
-print("X.shape: {}".format(X.shape))
-print("y.shape: {}".format(y.shape))
-print("X 타입: {}".format(type(X)))
-print("y 타입: {}".format(type(y)))
+print("X_train 크기: {} {} {}".format(X_train.shape, type(X_train), X_train.dtype))
+print("y_train 크기: {} {} {}".format(y_train.shape, type(X_train), X_train.dtype))
+print("X_test 크기: {} {} {}".format(X_test.shape, type(X_train), X_train.dtype))
+print("y_test 크기: {} {} {}".format(y_test.shape, type(X_train), X_train.dtype))
 print(X[:5], y[:5])
 
 # 산점도를 그립니다. 2개의 특성과 1개의 타켓(2개의 값)

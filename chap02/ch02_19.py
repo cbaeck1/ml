@@ -35,22 +35,23 @@ print(Y_heart.head(), Y_heart.shape)
 # 1.2 데이터프레임을 훈련 세트, 검증 세트, 테스트 세트로 나누기
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X_heart, Y_heart, stratify=Y_heart, random_state=66)
-print("X_train 크기: {}{}".format(X_train.shape, X_train.dtype))
-print("y_train 크기: {}{}".format(y_train.shape, y_train.dtype))
-print("X_test 크기: {}{}".format(X_test.shape, X_test.dtype))
-print("y_test 크기: {}{}".format(y_test.shape, y_test.dtype))
+print("X_train 크기: {} {} {}".format(X_train.shape, type(X_train), X_train.dtype))
+print("y_train 크기: {} {} {}".format(y_train.shape, type(X_train), X_train.dtype))
+print("X_test 크기: {} {} {}".format(X_test.shape, type(X_train), X_train.dtype))
+print("y_test 크기: {} {} {}".format(y_test.shape, type(X_train), X_train.dtype))
 
 ########################################################################
 # 2. 선형분류모델 : 로지스틱, 서포트 벡터 머신 
 # C=100 을 사용하니 훈련 세트의 정확도가 높아졌고 테스트 세트의 정확도도 조금 증가
 # 복잡도가 높은 모델일수록 성능이 좋음
 from sklearn.linear_model import LogisticRegression
-
+CList = [0.001, 0.01, 0.1, 1, 10, 100]
+markerList =  ['.', 'o', '*', '^', 'x', 'v']
 plt.figure(figsize=(14, 8))
-for C, marker in zip([0.001, 0.01, 0.1, 1, 10, 100], ['.', 'o', '*', '^', 'x', 'v']):
+for i, C, marker in zip(np.arange(len(CList)), CList, markerList):
     logreg = LogisticRegression(C=C).fit(X_train, y_train)
-    print("2. 선형모델 : C={:.3f} 인 로지스틱 회귀의 훈련/테스트 정확도: {:.3f}/{:.3f}".
-        format(C, logreg.score(X_train, y_train), logreg.score(X_test, y_test)))
+    print("2. 선형모델 : C={:.3f} 인 로지스틱 회귀의 훈련/테스트 정확도/특성수: {:.3f}/{:.3f}/{:.3f}".
+        format(C, logreg.score(X_train, y_train), logreg.score(X_test, y_test), np.sum(logreg.coef_ != 0)))
     plt.plot(logreg.coef_.T, marker, label="C={:.3f}".format(C))
 
 plt.xticks(range(dataframe.shape[1]), dataframe.columns, rotation=90)
@@ -71,13 +72,15 @@ plt.show()
 # L2 규제(몇 개의 특성만 사용)를 사용할 때의 분류 정확도와 계수 그래프 
 # Solver lbfgs supports only 'l2' or 'none' penalties, got l1 penalty.
 plt.figure(figsize=(14, 8))
-for C, marker in zip([0.001, 0.01, 0.1, 1, 10, 100], ['.', 'o', '*', '^', 'x', 'v']):
+CList = [0.001, 0.01, 0.1, 1, 10, 100]
+markerList =  ['.', 'o', '*', '^', 'x', 'v']
+for i, C, marker in zip(np.arange(len(CList)), CList, markerList):
     lr_l2 = LogisticRegression(C=C, penalty="l2").fit(X_train, y_train)
     lr_none = LogisticRegression(C=C, penalty="none").fit(X_train, y_train)
-    print("C={:.3f} 인 L2 로지스틱 회귀의 훈련/테스트 정확도: {:.3f}/{:.3f}".
-        format(C, lr_l2.score(X_train, y_train), lr_l2.score(X_test, y_test)))
-    print("C={:.3f} 인 penalty=none 로지스틱 회귀의 훈련/테스트 정확도: {:.3f}/{:.3f}".
-        format(C, lr_none.score(X_train, y_train), lr_none.score(X_test, y_test)))
+    print("C={:.3f} 인 L2 규제 로지스틱 회귀의 훈련/테스트 정확도/특성수: {:.3f}/{:.3f}/{:.3f}".
+        format(C, lr_l2.score(X_train, y_train), lr_l2.score(X_test, y_test), np.sum(lr_l2.coef_ != 0)))
+    print("C={:.3f} 인 penalty=none 로지스틱 회귀의 훈련/테스트 정확도/특성수: {:.3f}/{:.3f}/{:.3f}".
+        format(C, lr_none.score(X_train, y_train), lr_none.score(X_test, y_test), np.sum(lr_none.coef_ != 0)))
     plt.plot(lr_l2.coef_.T, marker, label="C={:.3f}".format(C))
     plt.plot(lr_none.coef_.T, marker, label="C={:.3f}".format(C))
 
@@ -87,7 +90,7 @@ plt.xlabel("특성")
 plt.ylabel("계수 크기")
 plt.ylim(-2, 2)
 plt.legend(loc=3)
-plt.title('heart 데이터와 L2,none 규제를 사용하여 각기 다른 C 값을 적용한 로지스틱 회귀 모델의 계수')
+plt.title('heart 데이터와 L2,none 규제를 사용 다른 C 값을 적용한 로지스틱 회귀 모델의 계수')
 images.image.save_fig("2.19.heart_logistic_C_L2")  
 plt.show()
 

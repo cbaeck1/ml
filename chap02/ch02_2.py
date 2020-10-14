@@ -8,7 +8,6 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import images.image
 
-
 # 2. 두 개의 특성을 가진 forge 데이터셋
 X, y = mglearn.datasets.make_forge()
 print("X.shape: {}".format(X.shape))

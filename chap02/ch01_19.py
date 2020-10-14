@@ -35,10 +35,10 @@ print(Y_heart.head(), Y_heart.shape)
 # 1.2 데이터프레임을 훈련 세트, 검증 세트, 테스트 세트로 나누기
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X_heart, Y_heart, stratify=Y_heart, random_state=66)
-print("X_train 크기: {}{}".format(X_train.shape, X_train.dtype))
-print("y_train 크기: {}{}".format(y_train.shape, y_train.dtype))
-print("X_test 크기: {}{}".format(X_test.shape, X_test.dtype))
-print("y_test 크기: {}{}".format(y_test.shape, y_test.dtype))
+print("X_train 크기: {} {} {}".format(X_train.shape, type(X_train), X_train.dtype))
+print("y_train 크기: {} {} {}".format(y_train.shape, type(X_train), X_train.dtype))
+print("X_test 크기: {} {} {}".format(X_test.shape, type(X_train), X_train.dtype))
+print("y_test 크기: {} {} {}".format(y_test.shape, type(X_train), X_train.dtype))
 
 '''
 # 1.2 데이터프레임을 훈련 세트, 검증 세트, 테스트 세트로 나누기

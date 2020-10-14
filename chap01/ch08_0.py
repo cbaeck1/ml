@@ -42,10 +42,10 @@ y_train = np.log(data_train.price)
 X_test = data_test.date[:, np.newaxis]
 y_test = np.log(data_test.price)
 
-print("X_train.shape: {}".format(X_train.shape))
-print("y_train.shape: {}".format(y_train.shape))
-print("X_train 타입: {}".format(type(X_train)))
-print("y_train 타입: {}".format(type(y_train)))
+print("X_train 크기: {} {} {}".format(X_train.shape, type(X_train), X_train.dtype))
+print("y_train 크기: {} {} {}".format(y_train.shape, type(X_train), X_train.dtype))
+print("X_test 크기: {} {} {}".format(X_test.shape, type(X_train), X_train.dtype))
+print("y_test 크기: {} {} {}".format(y_test.shape, type(X_train), X_train.dtype))
 print(X_train[:5], y_train[:5])
 
 

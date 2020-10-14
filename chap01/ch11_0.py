@@ -29,10 +29,10 @@ plt.show()
 
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, random_state=0)
-print("X_train.shape: {}".format(X_train.shape))
-print("y_train.shape: {}".format(y_train.shape))
-print("X_train 타입: {}".format(type(X_train)))
-print("y_train 타입: {}".format(type(y_train)))
+print("X_train 크기: {} {} {}".format(X_train.shape, type(X_train), X_train.dtype))
+print("y_train 크기: {} {} {}".format(y_train.shape, type(X_train), X_train.dtype))
+print("X_test 크기: {} {} {}".format(X_test.shape, type(X_train), X_train.dtype))
+print("y_test 크기: {} {} {}".format(y_test.shape, type(X_train), X_train.dtype))
 print(X_train[:5], y_train[:5])
 
 # 산점도를 그립니다. 2개의 특성과 1개의 타켓(2개의 값)

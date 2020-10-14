@@ -38,12 +38,17 @@ X_train = train.loc[:,'age':'thal']
 y_train = train['target']
 X_test = test.loc[:,'age':'thal']
 y_test = test['target']
-print("X_train 크기: {}".format(X_train.shape))
-print("y_train 크기: {}".format(y_train.shape))
-print("X_test 크기: {}".format(X_test.shape))
-print("y_test 크기: {}".format(y_test.shape))
 train, val = train_test_split(train, test_size=0.2)
+X_val = val.loc[:,'age':'thal']
+y_val = val['target']
 print(len(val), '검증 샘플')
+
+print("X_train {} {} {}".format(X_train.shape, type(X_train), X_train.info()))
+print("y_train {} {} {}".format(y_train.shape, type(y_train), y_train.dtype))
+print("X_test {} {} {}".format(X_test.shape, type(X_test), X_test.info()))
+print("y_test {} {} {}".format(y_test.shape, type(y_test), y_test.dtype))
+print("X_val {} {} {}".format(X_val.shape, type(X_val), X_val.info()))
+print("y_val {} {} {}".format(y_val.shape, type(y_val), y_val.dtype))
 
 # 산점도 비교 1:전체 2:X_train 3:X_test
 fig, axes = plt.subplots(1, 3, figsize=(15, 6))

@@ -14,7 +14,7 @@ import graphviz
 # 20. life
 
 # 1.1 판다스로 데이터프레임 만들기
-dataframe = pd.read_csv('e:/data/trans서울중구.csv')
+dataframe = pd.read_csv('data/trains서울중구.csv')
 print(dataframe.head(), dataframe.shape)
 
 # Categorical
@@ -49,8 +49,8 @@ forest.fit(X_train, y_train)
 print("랜덤 포레스트 훈련/테스트 세트 정확도: {:.5f}/{:.5f}".format(forest.score(X_train, y_train), forest.score(X_test, y_test)))
 
 # 선형 모델의 계수를 시각화하는 것과 비슷한 방법으로 특성 중요도도 시각화
-images.image.plot_feature_importances(forest, X_dataframe, X_dataframe.columns)
-plt.title('life 데이터로 만든 랜덤 포레스트 모델의 특성 중요도')
+images.image.plot_feature_importances(plt, forest, X_dataframe, X_dataframe.columns)
+plt.title('life 랜덤 포레스트 모델의 특성 중요도')
 images.image.save_fig("5.20.life_random_forest_feature_importances")  
 plt.show()
 
@@ -84,31 +84,41 @@ gbrt = GradientBoostingClassifier(random_state=0)
 gbrt.fit(X_train, y_train)
 print("GradientBoosting 훈련/테스트 세트 정확도: {:.3f}/{:.3f}".format(gbrt.score(X_train, y_train), gbrt.score(X_test, y_test)))
 
-images.image.plot_feature_importances(gbrt, X_dataframe, X_dataframe.columns)
-plt.title('life 데이터로 만든 그래디언트 부스팅 분류기의 특성 중요도')
+images.image.plot_feature_importances(plt, gbrt, X_dataframe, X_dataframe.columns)
+plt.title('life 그래디언트부스팅 특성 중요도')
 images.image.save_fig("5.20.life_GradientBoosting_feature_importances")  
 plt.show()
 
-gbrt_train_score = []
-gbrt_test_score = []
-gbrtcoef = []
-gbrt_coef_cnt = []
+gbrt_train_scores = []
+gbrt_test_scores = []
+gbrtcoefs = []
+gbrt_coef_cnts = []
 
-for i, max_depth in zip(np.arange(4), [1, 10, 100, 1000]):
-    for i, learning_rate in zip(np.arange(5), [0.001, 0.01, 0.1, 1, 10]):
+max_depthList = [1, 10, 100, 1000]
+learning_rateList = [0.001, 0.01, 0.1, 1, 10]
+
+fig, axes = plt.subplots(len(max_depthList), len(learning_rateList), figsize=(len(max_depthList)*5, len(learning_rateList)*2))
+for i, max_depth in zip(np.arange(len(max_depthList)), max_depthList):
+    for j, learning_rate in zip(np.arange(len(learning_rateList)), learning_rateList):
         gbrt = GradientBoostingClassifier(random_state=0, max_depth=max_depth, learning_rate=learning_rate)
-        gbrt.fit(X_train, y_train)
-        gbrt_train_score.append(gbrt.score(X_train, y_train))
-        gbrt_test_score.append(gbrt.score(X_test, y_test))
+        histroy = gbrt.fit(X_train, y_train)
+        gbrt_train_scores.append(gbrt.score(X_train, y_train))
+        gbrt_test_scores.append(gbrt.score(X_test, y_test))
  
         print("GradientBoosting max_depth={:.3f}, learning_rate={:.3f} 훈련/테스트 세트 정확도: {:.5f}/{:.5f}".
-            format(max_depth, learning_rate, gbrt_train_score[i], gbrt_test_score[i]))
+            format(max_depth, learning_rate, gbrt_train_scores[i+j], gbrt_test_scores[i+j]))
+        images.image.plot_feature_importances(axes[i+j].plot, gbrt, X_train, X_dataframe.columns) 
 
+images.image.save_fig("5.20.life_GradientBoosting_feature_importances")  
+plt.show()
+
+
+'''
         images.image.plot_feature_importances(gbrt, X_dataframe, X_dataframe.columns)
-        plt.title('life 데이터로 만든 그래디언트 부스팅 분류기 MaxDepth={} LR={}의 특성 중요도'.format(max_depth, learning_rate))
+        plt.title('life 그래디언트부스팅 MaxDepth={} LR={}의 특성 중요도'.format(max_depth, learning_rate))
         images.image.save_fig("5.20.life_GradientBoosting_MaxDepth={}_LR={}_feature_importances".format(max_depth, learning_rate))  
         plt.show()
-
+'''
 
 
 
